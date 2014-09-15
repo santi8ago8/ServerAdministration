@@ -75,7 +75,7 @@ var terminal = function () {
         }
     });
     self.term.on('close', function (data) {
-        io.emit('ter:close',{pid:self.term.pid,exit:data});
+        io.emit('ter:close', {pid: self.pid, exit: data});
     });
 
 
