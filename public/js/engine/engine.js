@@ -16,13 +16,13 @@ var getFile = function (url, cb) {
 window.addEventListener('load', function () {
     var timer = b.u.timeout(100);
     timer.then(function () {
-        init();
+        //init();
     });
 });
 
 function init() {
 
-    var socket = io();
+    var socket = require('io')();
 
     var tc = new TerminalController(socket);
 
@@ -197,3 +197,9 @@ function clearColors(text) {
         return (text.replace(/\033\[[0-9;]*m/, ''));
 
 }
+
+define('engine', ['io','boq','swig','engine/local'], function () {
+    init();
+    console.log('define engine');
+    return {"Engine!": true};
+});

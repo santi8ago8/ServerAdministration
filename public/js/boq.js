@@ -819,9 +819,16 @@
     };
 
 
-    window.Boq = window.boq = boq;
-    if (typeof window.b === 'undefined')
-        window.b = boq;
-    if (typeof window._b === 'undefined')
-        window._b = boq;
+    if (typeof define !== 'undefined') {
+        define('boq', function () {
+            return boq;
+        });
+    }
+    else {
+        window.Boq = window.boq = boq;
+        if (typeof window.b === 'undefined')
+            window.b = boq;
+        if (typeof window._b === 'undefined')
+            window._b = boq;
+    }
 }(window));

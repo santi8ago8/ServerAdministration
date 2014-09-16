@@ -73,12 +73,14 @@ try {
 catch (e) {
     console.log('Create the certificate');
 }
-var server = https.createServer(options,app).listen(3000);
+var port = 3000;
+var server = https.createServer(options, app).listen(port);
 require('./routes/sockets').init(server);
+console.log('listen in port: ' + port);
 module.exports = app;
 
-process.on('SIGINT',function(){
-    console.log('clooooose');
+process.on('SIGINT', function () {
+    console.log('maaaaadeee!!!!');
 
     process.exit();
 });
