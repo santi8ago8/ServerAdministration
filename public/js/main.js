@@ -1,9 +1,13 @@
 require.config({
     baseUrl: 'js/',
     paths: {
+        domReady: "domReady",
         boq: "boq",
         io: 'socket.io',
-        swig: 'swig.min'
+        text: 'text',
+        swig: 'swig.min',
+        term: 'term'
+
     },
     packages: [
         {
@@ -19,4 +23,7 @@ console.log('loading engine');
 require(['engine'], function (engine) {
     //debugger;
     console.log('engine started');
+    require(['text!/html/main.html'], function (text) {
+        console.log(text);
+    });
 });

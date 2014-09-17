@@ -1,24 +1,4 @@
-/**
- * Created by santi8ago8 on 13/09/14.
- */
 
-var getFile = function (url, cb) {
-    var ajax = new XMLHttpRequest();
-    ajax.onreadystatechange = function () {
-        if (ajax.readyState == 4 && ajax.status == 200)
-            cb(ajax.responseText);
-    };
-    ajax.open('GET', url, true);
-    ajax.send();
-};
-
-
-window.addEventListener('load', function () {
-    var timer = b.u.timeout(100);
-    timer.then(function () {
-        //init();
-    });
-});
 
 function init() {
 
@@ -51,9 +31,6 @@ function init() {
     socket.on('ter:close', function (data) {
         tc.close(data);
     });
-
-    document.body.addEventListener('keydown', tc.keyprocess);
-    document.body.addEventListener('keypress', tc.keyprocess);
 }
 
 
@@ -89,9 +66,18 @@ var TerminalController = function (socket) {
             }
         });
         if (!active) {
-            var t = new Terminal(data.pid);
+
+            var t = new Terminal({
+                cols: 80,
+                rows: 30,
+                screenKeys: true
+            });
+            t.pid = data.pid;
             self.terminals.push(t);
-            t.on('active', activeCb).active();
+            t.on('data', function(d) {
+                socket.emit('ter:write', {data: d, pid: t.pid});
+            });
+            t.open(document.body);
         }
         return self;
     };
@@ -99,9 +85,7 @@ var TerminalController = function (socket) {
 
     this.close = function (data) {
         console.log("close", data);
-        if (self.activeTerminal.pid == data.pid) {
-            self.activeTerminal = undefined;
-        }
+
     };
     //do it
     this.keyprocess = function (e) {
@@ -122,11 +106,7 @@ var TerminalController = function (socket) {
         }
     };
 
-    var activeCb = function (terminal) {
-        console.log('tem active: ', terminal);
-        self.activeTerminal = terminal;
 
-    };
 
 };
 
@@ -165,41 +145,9 @@ function eventer(target) {
     }
 }
 
-function Terminal(pid) {
 
-    var self = this;
-    eventer(this);
-    this.pid = pid;
-
-    this.write = function (data) {
-        var t = clearColors(data);
-        console.log(t);
-        return self;
-    };
-
-    this.active = function () {
-        self.emit('active', self);
-        return self;
-    };
-
-
-}
-
-function clearColors(text) {
-    var re = /\033\[[0-9;]*m/;
-    var rep;
-    while (rep = re.exec(text)) {
-
-        text = text.replace(rep[0], '');
-
-    }
-    if (text && text.length > 0 && text != '')
-        return (text.replace(/\033\[[0-9;]*m/, ''));
-
-}
-
-define('engine', ['io','boq','swig','engine/local'], function () {
+define('engine', ['io', 'boq', 'swig', 'term', 'engine/local'], function (module, exports, require) {
     init();
     console.log('define engine');
-    return {"Engine!": true};
+    return {};
 });
