@@ -43,26 +43,60 @@ button {
   text-align: center;
 }
 .mainLogin .login {
+  box-sizing: border-box;
+  padding: 1.4em 1em;
+  background-color: rgba(149,165,166,0.2);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
   margin: auto;
+  margin-top: 4em;
 }
 .mainLogin .login input,
 .mainLogin .login button {
   display: block;
   width: 100%;
   border: 0;
-  border-bottom: 1px solid #fff;
+  padding: 0.2em;
+  box-sizing: border-box;
+}
+.mainLogin .login input {
+  margin-bottom: 1em;
+}
+.mainLogin .login input,
+.mainLogin .login button {
+  margin-top: 0;
+}
+.mainLogin .login button {
+  height: 2em;
 }
 .mainLogin .login input:focus,
 .mainLogin .login button:focus {
   outline: 0;
 }
-@media screen and (min-device-width: 400px) and (orientation: landscape) {
-  .login {
-    width: 50%;
-  }
-}
-@media screen and (min-device-width: 400px) and (orientation: portrait) {
-  .login {
+@media all and (max-width: 500px) and (min-width: 0px) {
+  .mainLogin .login {
     width: 100%;
+    padding: 1.4em 0.5em;
   }
 }
+@media all and (min-width: 500px) and (max-width: 1000px) {
+  .mainLogin .login {
+    width: 50%;
+    margin-top: 2em;
+  }
+}
+@media all and (min-width: 1000px) {
+  .mainLogin .login {
+    margin-top: 2em;
+    width: 380px;
+  }
+}
+/*
+@media screen and (min-device-width: 400px) and (orientation: landscape)
+    .login
+        width 50%
+@media screen and (min-device-width: 400px) and (orientation: portrait)
+    .login
+        width 100%*/
