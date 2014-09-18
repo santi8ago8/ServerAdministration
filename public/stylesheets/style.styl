@@ -1,6 +1,59 @@
-body
-  padding: 0px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+@font-face
+    font-family Montserrat-Regular
+    font-weight: 400;
+    src url('/stylesheets/Montserrat-Regular.ttf')
 
+@font-face
+    font-family Montserrat-Bold
+    font-weight: 700;
+    src url('/stylesheets/Montserrat-Bold.ttf')
+
+@font-face
+    font-family Montserrat-RegularWoff
+    font-weight: 400;
+    src url('/stylesheets/Montserrat-Regular.woff')
+
+@font-face
+    font-family Montserrat-BoldWoff
+    font-weight: 700;
+    src url('/stylesheets/Montserrat-Bold.woff')
+
+/*
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dppx)
+    body
+        font-size: 1.8em !important
+*/
 a
-  color: #00B7FF;
+    color: #00B7FF;
+
+body, input, button
+    color: white;
+    padding: 0px;
+    font-size: 1.2em
+    font-family "Montserrat-RegularWoff", "Montserrat-Regular", sans-serif
+    background-color #34495e
+
+.bold
+    font-family "Montserrat-BoldWoff", "Montserrat-Bold", sans-serif
+    font-weight 700;
+
+//login area.
+.mainLogin
+    text-align: center;
+
+    .login
+        margin auto
+        input, button
+            display block
+            width 100%
+            border 0;
+            border-bottom 1px solid white
+        input:focus,button:focus
+            outline 0
+
+@media screen and (min-device-width: 400px) and (orientation: landscape)
+    .login
+        width 50%
+@media screen and (min-device-width: 400px) and (orientation: portrait)
+    .login
+        width 100%

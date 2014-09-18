@@ -28,15 +28,19 @@
             }
         },
         qsContext: function (query, context, res) {
-            context.each(function (it) {
-                var resIt = boq.Array(it.querySelectorAll(query));
-                resIt.each(function (itR) {
-                    if (res.indexOf(itR) == -1) {
-                        res.push(itR);
-                    }
-                });
+            if (typeof query !== 'undefined')
+                context.each(function (it) {
+                    var resIt = boq.Array(it.querySelectorAll(query));
+                    resIt.each(function (itR) {
+                        if (res.indexOf(itR) == -1) {
+                            res.push(itR);
+                        }
+                    });
 
-            });
+                });
+            else {
+                res.add(context, true);
+            }
             return res;
         },
         engineTimer: function (time, int) {
@@ -252,10 +256,50 @@
          * @returns {boq.Array}
          */
         qs: function (query, context) {
+
+            //http://stackoverflow.com/questions/384286/javascript-isdom-how-do-you-check-if-a-javascript-object-is-a-dom-object
+            //Returns true if it is a DOM node
+            function isNode(o) {
+                return (
+                        typeof Node === "object" ? o instanceof Node :
+                    o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName === "string"
+                    );
+            }
+
+            //Returns true if it is a DOM element
+            function isElement(o) {
+                return (
+                        typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
+                    o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName === "string"
+                    );
+            }
+
+            //http://stackoverflow.com/questions/7238177/detect-htmlcollection-nodelist-in-javascript
+            function isNodeList(nodes) {
+                var stringRepr = Object.prototype.toString.call(nodes);
+
+                return typeof nodes === 'object' &&
+                    /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
+                    nodes.hasOwnProperty('length') &&
+                    (nodes.length === 0 || (typeof nodes[0] === "object" && nodes[0].nodeType > 0));
+            }
+
             var res = boq.Array();
             boq.utils.extends(res, boq.utils.qs.adds);
             boq.utils.extends(res.adds = {}, boq.utils.qs.adds);
-            if (typeof context !== 'undefined') {
+
+            if (isNode(query) || isElement(query)) {
+                context = boq.Array([query]);
+                return privateUtils.qsContext.call(res, undefined, context, res);
+            }
+            else if (isNodeList(query)) {
+                for (var i = 0; i < query.length; i++) {
+                    res.push(query[i]);
+                }
+                return privateUtils.qsContext.call(res, undefined, context, res);
+
+            }
+            else if (typeof context !== 'undefined') {
 
                 return privateUtils.qsContext.call(res, query, context, res);
 
@@ -310,7 +354,7 @@
     boq.utils.extends(boq, boq.utils, false);
 
     // qs in global scope with name q
-    if (typeof window.q === 'undefined')
+    if (typeof window.q === 'undefined' && typeof define === 'undefined')
         window.q = boq.utils.qs;
 
     /**
@@ -551,7 +595,7 @@
          * add element to the array
          * @param {*} elem an item to add
          * @param [concat=false] if is true concat the array passed in the first param.
-         * @returns {Array=}
+         * @returns {boq.Array}
          */
         self.add = function (elem, concat) {
             //concat array whit this
@@ -817,7 +861,6 @@
             return privatesRouter.currentRoute;
         }
     };
-
 
     if (typeof define !== 'undefined') {
         define('boq', function () {

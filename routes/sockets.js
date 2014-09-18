@@ -116,7 +116,8 @@ var initSockets = function () {
                 if (ret.token && data.token && data.token == ret.token) { //compare token
                     sd.result = true;
                     sd.token = ret.token;
-                    doRest();
+                    socket.loginCorrect = true;
+
                 }
                 else if (ret.name === data.name && ret.password === data.password) { //compare passwords
                     sd.result = true;
@@ -125,12 +126,22 @@ var initSockets = function () {
                     db.put('user', ret, {valueEncoding: 'json'}, function (err) {
                         if (err) console.log(err);
                     });
-                    doRest();
+                    socket.loginCorrect = true;
                 }
 
                 socket.emit('login', sd);
             });
-        })
+        });
+
+        socket.on('readyToReceive', function () {
+            if (socket.loginCorrect) {
+                doRest();
+            }
+            else {
+                socket.emit('hack', 'don\'t hack!');
+            }
+
+        });
     })
 
 };

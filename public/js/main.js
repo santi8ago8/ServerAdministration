@@ -6,8 +6,13 @@ require.config({
         io: 'socket.io',
         text: 'text',
         swig: 'swig.min',
-        term: 'term'
+        Terminal:'term'
 
+    },
+    shim: {
+        Terminal: {
+            exports: 'Terminal'
+        }
     },
     packages: [
         {
@@ -19,11 +24,8 @@ require.config({
     ]
 });
 
-console.log('loading engine');
 require(['engine'], function (engine) {
     //debugger;
-    console.log('engine started');
-    require(['text!/html/main.html'], function (text) {
-        console.log(text);
-    });
+    console.log('engine started',engine);
+
 });
