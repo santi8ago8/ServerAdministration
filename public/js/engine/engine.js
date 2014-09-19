@@ -1,14 +1,11 @@
 
-
+/*
 var TerminalController = function (socket) {
     var self = this;
 
     this.socket = socket;
     this.terminals = [];
-    /**
-     *
-     * @type {Terminal}
-     */
+
     this.activeTerminal = undefined;
 
     this.data = function (data) {
@@ -73,7 +70,7 @@ var TerminalController = function (socket) {
     };
 
 
-};
+};*/
 
 
 

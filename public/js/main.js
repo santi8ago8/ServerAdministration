@@ -3,10 +3,11 @@ require.config({
     paths: {
         domReady: "domReady",
         boq: "boq",
+        "boq.dom": "boq.dom",
         io: 'socket.io',
         text: 'text',
         swig: 'swig.min',
-        Terminal:'term'
+        Terminal: 'term'
 
     },
     shim: {
@@ -24,8 +25,8 @@ require.config({
     ]
 });
 
-require(['engine'], function (engine) {
+define('main', ['engine', 'text', 'swig', 'Terminal'], function (engine) {
     //debugger;
-    console.log('engine started',engine);
+    console.log('engine started', engine);
 
 });

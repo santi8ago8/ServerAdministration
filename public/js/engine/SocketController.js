@@ -15,33 +15,36 @@ define('engine/SocketController', ['io'], function (io) {
                 if (token)
                     socket.emit('login', {token: token});
                 else {
-                    if (loginController == undefined)
+                    if (loginController == undefined) {
                         require(['engine/LoginController'], function (LoginController) {
                             loginController = new LoginController(document.body, sendToSocket);
-                            console.log('login controller', loginController);
-
-
+                            loginController.on('endUI', loginEnded);
                         });
-
+                    }
                 }
 
             }
-            else if (loginController == undefined)
+            else if (loginController == undefined) {
                 require(['engine/LoginController'], function (LoginController) {
                     loginController = new LoginController(document.body, sendToSocket);
-                    console.log('login controller', loginController);
-
-
+                    loginController.on('endUI', loginEnded);
                 });
+            } else {
+                //inc Data
+                loginController.emit('incData');
+            }
         }
         else { //loged
             if (loginController != undefined) {
                 loginController.emit('close');
+            } else {
+                loginEnded();
             }
-            var tc = new TerminalController(document.body, sendToSocket);
+
             localStorage.setItem('token', a.token);
         }
     });
+
     socket.on('ter:data', function (data) {
         tc.data(data);
     });
@@ -55,6 +58,11 @@ define('engine/SocketController', ['io'], function (io) {
     var sendToSocket = function (evname, data) {
         console.log("Writing in socket:", this, evname, data);
         socket.emit(evname, data);
+    };
+
+    var loginEnded = function () {
+        console.log('login end');
+        //var tc = new TerminalController(document.body, sendToSocket);
     };
 
     return socket;

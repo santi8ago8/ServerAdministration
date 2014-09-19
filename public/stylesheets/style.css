@@ -18,11 +18,6 @@
   font-weight: 700;
   src: url("/stylesheets/Montserrat-Bold.woff");
 }
-/*
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dppx)
-    body
-        font-size: 1.8em !important
-*/
 a {
   color: #00b7ff;
 }
@@ -31,7 +26,7 @@ input,
 button {
   color: #fff;
   padding: 0px;
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-family: "Montserrat-RegularWoff", "Montserrat-Regular", sans-serif;
   background-color: #34495e;
 }
@@ -39,8 +34,29 @@ button {
   font-family: "Montserrat-BoldWoff", "Montserrat-Bold", sans-serif;
   font-weight: 700;
 }
+.hide {
+  display: none;
+}
 .mainLogin {
   text-align: center;
+  -webkit-perspective: 800px;
+  -moz-perspective: 800px;
+  -o-perspective: 800px;
+  perspective: 800px;
+}
+.mainLogin .successLogin {
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 0.4s;
+  -moz-transition: -moz-transform 0.4s;
+  -o-transition: -o-transform 0.4s;
+  transition: transform 0.4s;
+  -webkit-transform: rotateY(-90deg);
+  -moz-transform: rotateY(-90deg);
+  -o-transform: rotateY(-90deg);
+  transform: rotateY(-90deg);
 }
 .mainLogin .login {
   box-sizing: border-box;
@@ -75,6 +91,38 @@ button {
 .mainLogin .login button:focus {
   outline: 0;
 }
+.mainLogin .login button {
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform-origin: 50% 0%;
+  -moz-transform-origin: 50% 0%;
+  -o-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+  -webkit-transition: -webkit-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+  -o-transition: -o-transform 0.5s;
+  transition: transform 0.5s;
+}
+.mainLogin .login button.logging {
+  -webkit-animation-name: logging;
+  -moz-animation-name: logging;
+  -o-animation-name: logging;
+  animation-name: logging;
+  -webkit-animation-duration: 1.5s;
+  -moz-animation-duration: 1.5s;
+  -o-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function: linear;
+  -o-animation-timing-function: linear;
+  animation-timing-function: linear;
+}
 @media all and (max-width: 500px) and (min-width: 0px) {
   .mainLogin .login {
     width: 100%;
@@ -100,3 +148,131 @@ button {
 @media screen and (min-device-width: 400px) and (orientation: portrait)
     .login
         width 100%*/
+@-moz-keyframes logging {
+  0% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+  25% {
+    -webkit-transform: rotateX(65deg);
+    -moz-transform: rotateX(65deg);
+    -o-transform: rotateX(65deg);
+    transform: rotateX(65deg);
+  }
+  50% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+  75% {
+    -webkit-transform: rotateX(-65deg);
+    -moz-transform: rotateX(-65deg);
+    -o-transform: rotateX(-65deg);
+    transform: rotateX(-65deg);
+  }
+  100% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+}
+@-webkit-keyframes logging {
+  0% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+  25% {
+    -webkit-transform: rotateX(65deg);
+    -moz-transform: rotateX(65deg);
+    -o-transform: rotateX(65deg);
+    transform: rotateX(65deg);
+  }
+  50% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+  75% {
+    -webkit-transform: rotateX(-65deg);
+    -moz-transform: rotateX(-65deg);
+    -o-transform: rotateX(-65deg);
+    transform: rotateX(-65deg);
+  }
+  100% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+}
+@-o-keyframes logging {
+  0% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+  25% {
+    -webkit-transform: rotateX(65deg);
+    -moz-transform: rotateX(65deg);
+    -o-transform: rotateX(65deg);
+    transform: rotateX(65deg);
+  }
+  50% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+  75% {
+    -webkit-transform: rotateX(-65deg);
+    -moz-transform: rotateX(-65deg);
+    -o-transform: rotateX(-65deg);
+    transform: rotateX(-65deg);
+  }
+  100% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+}
+@keyframes logging {
+  0% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+  25% {
+    -webkit-transform: rotateX(65deg);
+    -moz-transform: rotateX(65deg);
+    -o-transform: rotateX(65deg);
+    transform: rotateX(65deg);
+  }
+  50% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+  75% {
+    -webkit-transform: rotateX(-65deg);
+    -moz-transform: rotateX(-65deg);
+    -o-transform: rotateX(-65deg);
+    transform: rotateX(-65deg);
+  }
+  100% {
+    -webkit-transform: rotateX(1deg);
+    -moz-transform: rotateX(1deg);
+    -o-transform: rotateX(1deg);
+    transform: rotateX(1deg);
+  }
+}

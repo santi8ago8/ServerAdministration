@@ -1,9 +1,17 @@
+//functions
 html5(prop, args)
     -webkit-{prop} args
     -moz-{prop} args
     -o-{prop} args
     {prop} args
 
+html5In(prop, sec)
+    -webkit-{prop} unquote('-webkit-' + sec)
+    -moz-{prop} unquote('-moz-' + sec)
+    -o-{prop} unquote('-o-' + sec)
+    {prop} unquote('' + sec)
+
+//fonts
 @font-face
     font-family Montserrat-Regular
     font-weight: 400;
@@ -24,18 +32,14 @@ html5(prop, args)
     font-weight: 700;
     src url('/stylesheets/Montserrat-Bold.woff')
 
-/*
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dppx)
-    body
-        font-size: 1.8em !important
-*/
+//globals
 a
     color: #00B7FF;
 
 body, input, button
     color: white;
     padding: 0px;
-    font-size: 1.2em
+    font-size: 1.1em
     font-family "Montserrat-RegularWoff", "Montserrat-Regular", sans-serif
     background-color #34495e
 
@@ -43,25 +47,46 @@ body, input, button
     font-family "Montserrat-BoldWoff", "Montserrat-Bold", sans-serif
     font-weight 700;
 
+.hide
+    display none;
+
 //login area.
+
+@keyframes logging
+    0%
+        html5('transform', rotateX(1deg))
+    25%
+        html5('transform', rotateX(65deg))
+    50%
+        html5('transform', rotateX(1deg))
+    75%
+        html5('transform', rotateX(-65deg))
+    100%
+        html5('transform', rotateX(1deg))
 
 .mainLogin
     text-align: center;
+    html5('perspective', 800px)
 
+    .successLogin
+        html5('transform-style', preserve-3d)
+        html5In('transition', transform .4s)
+        html5('transform', rotateY(-90deg))
     .login
         box-sizing border-box
         padding 1.4em 1em;
         background-color rgba(149, 165, 166, .2)
-        html5('border-radius', 5px);
+        html5('border-radius', 5px)
         margin auto
         margin-top 4em
+
         input, button
             display block
             width 100%
             border 0;
             padding: 0.2em;
             box-sizing: border-box;
-        //border-bottom 1px solid white
+
         input
             margin-bottom 1em
         input, button
@@ -70,6 +95,15 @@ body, input, button
             height 2em
         input:focus, button:focus
             outline 0
+        button
+            html5('transform-style', preserve-3d)
+            html5('transform-origin', 50% 0%)
+            html5In('transition', transform .5s)
+        button.logging
+            html5('animation-name', logging)
+            html5('animation-duration', 1.5s)
+            html5('animation-iteration-count', infinite)
+            html5('animation-timing-function', linear)
 
 @media all and (max-width: 500px) and (min-width: 0px)
     .mainLogin

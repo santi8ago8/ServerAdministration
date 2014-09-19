@@ -91,7 +91,7 @@
          * @returns {*}
          */
         Boq.utils.qs.adds.show = function () {
-            return this.adds.css.call(this, 'display', '');
+            return this.adds.css.call(this, 'display', 'initial');
         };
 
         /**

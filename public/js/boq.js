@@ -43,8 +43,9 @@
             }
             return res;
         },
-        engineTimer: function (time, int) {
+        engineTimer: function (time, int, scope) {
             var self = {};
+            self.scope = scope || self;
             self.type = int ? setInterval : setTimeout;
             self.typeClear = int ? clearInterval : clearTimeout;
             /**
@@ -79,7 +80,7 @@
             self.run = function () {
                 self.timesTriggered++;
                 self.callbacks.each(function (it) {
-                    it(self);
+                    it.call(self.scope, self);
                 });
                 return self;
             };
@@ -328,19 +329,21 @@
         },
         /**
          * Create a timeout object, use promises
-         * @param time
+         * @param time time in ms
+         * @param scope the scope of cb
          * @returns {privateUtils.engineTimer}
          */
-        timeout: function (time) {
-            return privateUtils.engineTimer(time, false);
+        timeout: function (time, scope) {
+            return privateUtils.engineTimer(time, false, scope);
         },
         /**
          * Create a interval object, use promises
-         * @param time
+         * @param time time in ms
+         * @param scope the scope of cb
          * @returns {privateUtils.engineTimer}
          */
-        interval: function (time) {
-            return privateUtils.engineTimer(time, true);
+        interval: function (time, scope) {
+            return privateUtils.engineTimer(time, true, scope);
         }
     };
 

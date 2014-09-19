@@ -6,9 +6,18 @@
         {name: 'main'}
     ],
     paths: {
+        domReady: "domReady",
         boq: "boq",
+        "boq.dom": "boq.dom",
         io: 'socket.io',
-        swig: 'swig.min'
+        text: 'text',
+        swig: 'swig.min',
+        Terminal: 'term'
+    },
+    shim: {
+        Terminal: {
+            exports: 'Terminal'
+        }
     },
     packages: [
         {
