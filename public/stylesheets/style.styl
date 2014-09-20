@@ -64,6 +64,18 @@ body, input, button
     100%
         html5('transform', rotateX(1deg))
 
+@keyframes openingLogin
+    0%
+        html5('transform', rotateY(90deg))
+    100%
+        html5('transform', rotateY(0deg))
+
+@keyframes blinking
+    0%
+        opacity  1;
+    50%
+        opacity  0;
+
 .mainLogin
     text-align: center;
     html5('perspective', 800px)
@@ -79,6 +91,20 @@ body, input, button
         html5('border-radius', 5px)
         margin auto
         margin-top 4em
+        html5('animation-name', openingLogin)
+        html5('animation-duration', .4s)
+        html5('animation-iteration-count', 1)
+        html5('animation-timing-function', ease)
+
+        h1
+            text-align left;
+            margin 0;
+            margin-bottom 0.3em
+            span.cursor
+                html5('animation-name', blinking)
+                html5('animation-duration', 1s)
+                html5('animation-iteration-count', infinite)
+                html5('animation-timing-function', ease)
 
         input, button
             display block

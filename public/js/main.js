@@ -13,6 +13,9 @@ require.config({
     shim: {
         Terminal: {
             exports: 'Terminal'
+        },
+        angular: {
+            exports: 'angular'
         }
     },
     packages: [
@@ -25,8 +28,12 @@ require.config({
     ]
 });
 
-define('main', ['engine', 'text', 'swig', 'Terminal'], function (engine) {
+
+define('main', [ 'text', 'Terminal', 'engine'], function (text, Terminal,engine) {
     //debugger;
     console.log('engine started', engine);
+
+
+    return {};
 
 });

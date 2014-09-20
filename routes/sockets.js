@@ -7,27 +7,34 @@ var pty = require('pty.js');
 var level = require('level');
 var ds = require('data-structures');
 var uuid = require('uuid-lib');
+var cookie = require('cookie');
 var db = level('config');
 var consolas = [];
-
+var engine = require('./engine');
+var d = engine.errorHandler;
 
 exports.init = function (server) {
-
     io = io(server);
-
+};
+exports.initMongo = function (db) {
     startUp();
     initSockets();
-
 };
 
 function startUp() {
-    getConfig('init', function (a) {
-        a.commands.forEach(function (el) {
-            var term = new terminal();
-            consolas.push(term);
-            term.write(el + '\n');
-        })
+
+    engine.commands.find().toArray(function (err, resp) {
+        if (err)
+            console.log(err);
+        else {
+            resp.forEach(function (com) {
+                var term = new terminal();
+                consolas.push(term);
+                term.write(com.command + '\n');
+            })
+        }
     });
+
 }
 
 function getConfig(key, cb) {
@@ -84,26 +91,70 @@ var terminal = function () {
 var initSockets = function () {
 
     io.use(function (socket, next) {
+
+        var cookie_string = socket.conn.request.headers.cookie;
+
+        var parsed_cookies = cookie.parse(cookie_string);
+        var connect_sid = parsed_cookies['connect.sid'];
+        socket.roomSession = connect_sid;
+        socket.join(connect_sid);
+
         if (!socket.loged)
             socket.emit('login', {result: false});
+
+
         next();
     });
 
     io.on('connection', function (socket) {
 
-        var doRest = function () {
+
+        var doRest = function (user) {
+            socket.loginCorrect = true;
+            socket.roomLogged = user.name;
+            socket.roomGlobal = 'global';
+            socket.join(socket.roomLogged);
+            socket.join(socket.roomGlobal);
+
             socket.on('ter:write', function (data) {
-                consolas.forEach(function (c) {
-                    if (data.pid === c.pid) {
-                        c.write(data.data);
-                    }
-                })
+                d.run(function () {
+                    consolas.forEach(function (c) {
+                        if (data.pid === c.pid) {
+                            c.write(data.data);
+                        }
+                    })
+                });
+
             });
             consolas.forEach(function (c) {
                 socket.emit('ter:open', {pid: c.pid});
                 socket.emit('ter:data', {data: c.queue._content.join(''), pid: c.pid});
             })
         };
+
+        socket.on('logout', function () {
+            io.to(socket.roomSession).emit('logout');
+        });
+
+        //
+        socket.on('login:token', function (data) {
+            console.log(data);
+            d.run(function () {
+                console.log('runing');
+                engine.users.findOne({tokens: {$in: [data.token]}}, {name: 1, password: 1}, function (err, user) {
+                    if (err)
+                        console.log(err);
+                    else {
+
+                        if (!user)
+                            socket.emit('login:token', {result: false});
+                        else {
+                            io.to(socket.roomSession).emit('login:token', {result: true});
+                        }
+                    }
+                })
+            });
+        });
 
         socket.on('login', function (data) {
             getConfig('user', function (ret) {
@@ -126,10 +177,10 @@ var initSockets = function () {
                     db.put('user', ret, {valueEncoding: 'json'}, function (err) {
                         if (err) console.log(err);
                     });
-                    socket.loginCorrect = true;
+                    doRest(ret);
                 }
 
-                socket.emit('login', sd);
+                io.to(socket.roomSession).emit('login', sd);
             });
         });
 
@@ -142,6 +193,58 @@ var initSockets = function () {
             }
 
         });
+
+
+        /**
+         *  Format data{
+         *  id : one name of one binding
+         *  value: value to bind
+         *  }
+         */
+        socket.on('binding', function (data) {
+            var bind = getBinding(data.id);
+            console.log(data);
+            if (bind) {
+                var room;
+                if (bind.mode == 'session') {
+                    room = socket.roomSession;
+                }
+
+                if (room) {
+                    if (bind.toMe)
+                        io.to(room).emit('binding', data);
+                    else
+                        socket.to(room).emit('binding', data);
+                }
+            }
+        });
     })
 
 };
+
+function getBinding(id) {
+    var ret;
+    bindings.forEach(function (b) {
+        if (b.id == id)
+            ret = b;
+    });
+    return ret;
+}
+
+/**
+ * Bindings: {
+ *     id: simplemente el id.
+ *     mode: 'session'|'account'|'gobal'
+ *     // session es a la session en la misma pc tipicas sessiones web del browser.
+ *     // account va solo a la cuenta, por ej cuenta: "santi" a todas logueadas santi en donde sea.
+ *     // global a todas las cuentas logueadas.
+ *     toMe: envia el evento a mi mismo también.
+ * }
+ * @type {{id: string, mode: string}[]}
+ */
+
+var bindings = [
+    {id: 'login:name', mode: 'session', toMe: false},
+    {id: 'login:userText', mode: 'session', toMe: true},
+    {id: 'login:pass', mode: 'session', toMe: false}
+];
