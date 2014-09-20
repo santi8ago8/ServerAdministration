@@ -13,9 +13,6 @@ require.config({
     shim: {
         Terminal: {
             exports: 'Terminal'
-        },
-        angular: {
-            exports: 'angular'
         }
     },
     packages: [

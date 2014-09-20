@@ -3,6 +3,7 @@ define('engine/SocketController', ['io'], function (io) {
     return function (engine) {
         var socket = io();
 
+        var terminalController;
         var loginController;
         var isClosedLogin = false;
 
@@ -11,70 +12,61 @@ define('engine/SocketController', ['io'], function (io) {
             alert(m);
         });
 
-        socket.on('logout', function (data) {
+        socket.on('logout', function () {
             //logout events!
-            console.log('logout');
-            localStorage.setItem('token', 's');
-
-            login({result: false});
+            localStorage.setItem('token', '');
+            if (terminalController)
+                terminalController.emit('close');
+            else {
+                init();
+            }
         });
 
-        var login = function (a) {
-            if (!a.result) {
-                //check if have token to send.
-                if (!a.incToken) {
-                    var token = localStorage.getItem('token');
-                    if (token !== '')
-                        socket.emit('login', {token: token});
-                    else {
-                        if (loginController == undefined) {
-                            require(['engine/LoginController'], function (LoginController) {
-                                loginController = new LoginController(document.body, sendToSocket);
-                                loginController.on('endUI', loginEnded);
-                            });
-                        }
-                    }
-                }
-                else if (loginController == undefined) {
-                    require(['engine/LoginController'], function (LoginController) {
-                        loginController = new LoginController(document.body, sendToSocket);
-                        loginController.on('endUI', loginEnded);
-                    });
-                } else {
-                    //inc Data
-                    if (!a.incToken) // another window send the incorrect token.
-                        loginController.emit('incData');
-                }
-            }
-            else { //loged
-                if (loginController != undefined) {
-                    loginController.emit('close');
-                    loginController = undefined;
-                    isClosedLogin = true;
-                } else {
-                    if (!isClosedLogin) {
-                        isClosedLogin = true;
-                        loginEnded();
-                    }
-                }
-
-                localStorage.setItem('token', a.token);
+        var init = function () {
+            //try login with token:
+            var token = localStorage.getItem('token');
+            if (token !== '' && token !== null && token != undefined)
+                socket.emit('login:token', {token: token});
+            else {
+                openLoger();
             }
         };
 
-        socket.on('login', login);
+        socket.on('login', init);
 
         socket.on('ter:data', function (data) {
-            tc.data(data);
+            //TODO: made
+            console.log(data);
         });
         socket.on('ter:open', function (data) {
-            tc.open(data);
+            //TODO: made
+            console.log(data);
         });
         socket.on('ter:close', function (data) {
-            tc.close(data);
+            //TODO: made
+            console.log(data);
         });
         socket.on('binding', function (data) {
             engine.binding(data);
+        });
+        socket.on('login:token', function (data) {
+            console.log('login:token', data);
+            if (data.result == true)
+                loginEnded();
+            else {
+                openLoger();
+            }
+        });
+        socket.on('login:user', function (data) {
+            console.log(data);
+            if (data.result) {
+                loginController.emit('close');
+                loginController = undefined;
+                isClosedLogin = true;
+                localStorage.setItem('token', data.token);
+            } else {
+                loginController.emit('incData');
+            }
         });
 
 
@@ -85,8 +77,34 @@ define('engine/SocketController', ['io'], function (io) {
 
         var loginEnded = function () {
             console.log('login end');
-            //var tc = new TerminalController(document.body, sendToSocket);
+
+
+            require(['engine/TerminalController'], function (TerminalController) {
+                terminalController = new TerminalController(document.body, sendToSocket);
+                //when endedInit execute ready to receive.
+                terminalController.on('endedInit', tcEndedInit);
+                terminalController.on('endUI', init);
+
+                terminalController.emit('show');
+            });
+
+
         };
+
+        var tcEndedInit = function () {
+            console.log('tcEndedInit');
+            socket.emit('readyToReceive');
+        };
+
+        var openLoger = function () {
+            if (loginController == undefined) {
+                require(['engine/LoginController'], function (LoginController) {
+                    loginController = new LoginController(document.body, sendToSocket);
+                    loginController.on('endUI', loginEnded);
+                });
+            }
+        };
+
 
         return socket;
     }

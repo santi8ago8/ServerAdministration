@@ -4,11 +4,9 @@
 
 var io = require('socket.io');
 var pty = require('pty.js');
-var level = require('level');
 var ds = require('data-structures');
 var uuid = require('uuid-lib');
 var cookie = require('cookie');
-var db = level('config');
 var consolas = [];
 var engine = require('./engine');
 var d = engine.errorHandler;
@@ -33,17 +31,6 @@ function startUp() {
                 term.write(com.command + '\n');
             })
         }
-    });
-
-}
-
-function getConfig(key, cb) {
-
-    db.get(key, {valueEncoding: 'json'}, function (err, data) {
-        if (err)
-            console.log(err);
-        else
-            cb(data);
     });
 
 }
@@ -78,6 +65,7 @@ var terminal = function () {
             if (self.queue.size > 200) {
                 self.queue.dequeue();
             }
+            //TODO: view heere
             io.emit('ter:data', {data: data, pid: self.pid});
         }
     });
@@ -116,77 +104,108 @@ var initSockets = function () {
             socket.join(socket.roomLogged);
             socket.join(socket.roomGlobal);
 
-            socket.on('ter:write', function (data) {
-                d.run(function () {
-                    consolas.forEach(function (c) {
-                        if (data.pid === c.pid) {
-                            c.write(data.data);
-                        }
-                    })
-                });
-
-            });
             consolas.forEach(function (c) {
                 socket.emit('ter:open', {pid: c.pid});
                 socket.emit('ter:data', {data: c.queue._content.join(''), pid: c.pid});
             })
         };
 
-        socket.on('logout', function () {
-            io.to(socket.roomSession).emit('logout');
+        socket.on('logout', function (data) {
+            //destroy token.
+            d.run(function () {
+                engine.users.update(
+                    {tokens: {$elemMatch: {
+                        token: data.token,
+                        ip: socket.handshake.address
+                    }}},
+                    {$pull: {tokens: {
+                        token: data.token,
+                        ip: socket.handshake.address
+                    }}},
+                    function (err, resp) {
+                        if (err)
+                            console.log(err);
+                        else {
+                            if (resp > 0)
+                                io.to(socket.roomSession).emit('logout');
+                        }
+                    });
+
+            });
+
         });
 
-        //
+        //login token.
         socket.on('login:token', function (data) {
-            console.log(data);
             d.run(function () {
-                console.log('runing');
-                engine.users.findOne({tokens: {$in: [data.token]}}, {name: 1, password: 1}, function (err, user) {
+                var ip = socket.handshake.address;
+                engine.users.findOne({tokens: {$in: [
+                    {token: data.token, ip: ip}
+                ]}}, {name: 1, password: 1}, function (err, user) {
                     if (err)
                         console.log(err);
                     else {
 
                         if (!user)
-                            socket.emit('login:token', {result: false});
+                            io.to(socket.roomSession).emit('login:token', {result: false});
                         else {
-                            io.to(socket.roomSession).emit('login:token', {result: true});
+                            var room = io.to(socket.roomSession);
+                            room.sockets.forEach(function (s) {
+                                s.loginCorrect = true;
+                                s.user = user.name;
+                            });
+                            socket.emit('login:token', {result: true});
                         }
                     }
                 })
             });
         });
 
-        socket.on('login', function (data) {
-            getConfig('user', function (ret) {
-                var sd = {};
-                sd.result = false;
-                sd.token = false;
-                if (data.token !== ret.token) {
-                    sd.incToken = true;
-                }
-                if (ret.token && data.token && data.token == ret.token) { //compare token
-                    sd.result = true;
-                    sd.token = ret.token;
-                    socket.loginCorrect = true;
+        //login username and password
+        socket.on('login:user', function (data) {
+            d.run(function () {
+                engine.users.findOne(
+                    {name: data.name, password: data.password},
+                    {name: 1, password: 1},
+                    function (err, user) {
+                        if (err)
+                            console.log(err);
+                        else {
 
-                }
-                else if (ret.name === data.name && ret.password === data.password) { //compare passwords
-                    sd.result = true;
-                    sd.token = uuid.create().value + uuid.create().value;
-                    ret.token = sd.token;
-                    db.put('user', ret, {valueEncoding: 'json'}, function (err) {
-                        if (err) console.log(err);
-                    });
-                    doRest(ret);
-                }
+                            if (!user)
+                                io.to(socket.roomSession).emit('login:user', {result: false});
+                            else {
+                                var ip = socket.handshake.address;
+                                var token = uuid.create().value + uuid.create().value + uuid.create().value + uuid.create().value + uuid.create().value + uuid.create().value;
+                                //save token
+                                engine.users.update(
+                                    {_id: user._id},
+                                    {$addToSet: {tokens: {token: token, ip: ip}}},
+                                    {upsert: false, multi: false},
+                                    function (err, updated) {
+                                        if (err)
+                                            console.log('saving token', err);
+                                        else {
+                                            var room = io.to(socket.roomSession);
+                                            room.sockets.forEach(function (s) {
+                                                s.loginCorrect = true;
+                                                s.user = user.name;
+                                            });
+                                            room.emit('login:user', {result: true, token: token});
+                                        }
 
-                io.to(socket.roomSession).emit('login', sd);
+                                    }
+                                )
+
+                            }
+                        }
+                    })
             });
         });
 
         socket.on('readyToReceive', function () {
             if (socket.loginCorrect) {
-                doRest();
+                doRest(socket);
             }
             else {
                 socket.emit('hack', 'don\'t hack!');
@@ -202,21 +221,31 @@ var initSockets = function () {
          *  }
          */
         socket.on('binding', function (data) {
-            var bind = getBinding(data.id);
-            console.log(data);
-            if (bind) {
-                var room;
-                if (bind.mode == 'session') {
-                    room = socket.roomSession;
-                }
+            d.run(function () {
+                var bind = getBinding(data.id);
 
-                if (room) {
-                    if (bind.toMe)
-                        io.to(room).emit('binding', data);
-                    else
-                        socket.to(room).emit('binding', data);
+                if (bind) {
+                    var room;
+                    if (bind.mode == 'session') {
+                        room = socket.roomSession;
+                    }
+                    if (bind.mode == 'account') {
+                        room = socket.roomLogged;
+                    }
+                    if (bind.mode == 'global') {
+                        room = socket.roomGlobal;
+                    }
+
+                    if (room && bind.cb) {
+                        cb(socket, data.extra, room);
+                    } else if (room) {
+                        if (bind.toMe)
+                            io.to(room).emit('binding', data);
+                        else
+                            socket.to(room).emit('binding', data);
+                    }
                 }
-            }
+            });
         });
     })
 
@@ -239,6 +268,7 @@ function getBinding(id) {
  *     // account va solo a la cuenta, por ej cuenta: "santi" a todas logueadas santi en donde sea.
  *     // global a todas las cuentas logueadas.
  *     toMe: envia el evento a mi mismo también.
+ *     [cb]: ejecuta un trabajo determinado. cancela cualquier otro emit. params (socket,data,room)
  * }
  * @type {{id: string, mode: string}[]}
  */
@@ -246,5 +276,12 @@ function getBinding(id) {
 var bindings = [
     {id: 'login:name', mode: 'session', toMe: false},
     {id: 'login:userText', mode: 'session', toMe: true},
-    {id: 'login:pass', mode: 'session', toMe: false}
+    {id: 'login:pass', mode: 'session', toMe: false},
+    {id: 'term:write', mode: 'global', toMe: true, cb: function (socket, data, room) {
+        consolas.forEach(function (c) {
+            if (data.pid === c.pid) {
+                c.write(data.data);
+            }
+        });
+    }}
 ];

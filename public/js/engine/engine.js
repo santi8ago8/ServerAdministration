@@ -76,7 +76,6 @@ define('engine', ['./SocketController', 'boq'], function (SocketController, b) {
 
     var engine = {
         binding: function (data) {
-            console.log(data);
             bindings.each(function (b) {
                 if (b.id == data.id) {
                     if (typeof b.setter == 'undefined')
@@ -100,7 +99,14 @@ define('engine', ['./SocketController', 'boq'], function (SocketController, b) {
             return boqElement;
         },
         unbinder: function (id) {
-            console.log('DOITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+            for (var i = 0; i < bindings.length; i++) {
+                var b = bindings[i];
+                if (b.id.lastIndexOf(id) == 0) {
+                    bindings.splice(i, 1);
+                    i--;
+                }
+
+            }
         }
     };
 

@@ -47,6 +47,7 @@ define('engine/LoginController', ['boq', 'engine/Eventer', 'text!/html/t_login.h
     };
 
     LoginController.prototype.close = function () {
+        engine.unbinder('login:');
         this.parent.q('.login').f().classList.add('successLogin');
         this.parent.q('.incData').hide();
         var tm = boq.timeout(410, this);
@@ -68,7 +69,7 @@ define('engine/LoginController', ['boq', 'engine/Eventer', 'text!/html/t_login.h
             this.parent.q('.compData').hide();
             this.parent.q('.incData').hide();
             this.els.send.f().classList.add('logging');
-            this.socketWriter('login', {name: user, password: pass});
+            this.socketWriter('login:user', {name: user, password: pass});
         }
         else {
             this.parent.q('.compData').show();

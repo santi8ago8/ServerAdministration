@@ -48,7 +48,7 @@ var errorHandler = {
             cb();
         }
         catch (ex) {
-            console.log(ex);
+            console.log(ex, ex.stack);
         }
     }
 };
