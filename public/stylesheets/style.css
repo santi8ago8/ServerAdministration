@@ -236,6 +236,10 @@ button:focus {
 .termControll header .userConfig {
   background-color: #5c97bf;
 }
+.termControll .terminal {
+  font-family: monospace;
+  font-size: 13px;
+}
 @media all and (max-width: 500px) and (min-width: 0px) {
   .mainLogin .login {
     width: 100%;

@@ -36,11 +36,31 @@ define('engine/SocketController', ['io'], function (io) {
 
         socket.on('ter:data', function (data) {
             //TODO: made
-            console.log(data);
+            //console.log(data);
+            terminalController.emit('data', data);
+
+            function clearColors(text) {
+                var re = /\033\[[0-9;]*m/;
+                var rep;
+                while (rep = re.exec(text)) {
+
+                    text = text.replace(rep[0], '');
+
+                }
+                if (text && text.length > 0 && text != '')
+                    return (text.replace(/\033\[[0-9;]*m/, ''));
+
+            }
+
+            if (true) {
+                console.log(clearColors(data.data), data.data.charCodeAt(0));
+            }
+            //console.log(clearColors(data.data))
         });
         socket.on('ter:open', function (data) {
             //TODO: made
             console.log(data);
+            terminalController.emit('open', data);
         });
         socket.on('ter:close', function (data) {
             //TODO: made

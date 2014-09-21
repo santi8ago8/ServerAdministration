@@ -237,7 +237,7 @@ var initSockets = function () {
                     }
 
                     if (room && bind.cb) {
-                        cb(socket, data.extra, room);
+                        bind.cb(socket, data, room);
                     } else if (room) {
                         if (bind.toMe)
                             io.to(room).emit('binding', data);
@@ -277,10 +277,15 @@ var bindings = [
     {id: 'login:name', mode: 'session', toMe: false},
     {id: 'login:userText', mode: 'session', toMe: true},
     {id: 'login:pass', mode: 'session', toMe: false},
-    {id: 'term:write', mode: 'global', toMe: true, cb: function (socket, data, room) {
+    {id: 'term:open', mode: 'global', toMe: true, cb: function (socket, data, room) {
+        var t = new terminal();
+        consolas.push(t);
+    }},
+    {id: 'term:write', mode: 'global', toMe: true, cb: function (_, data) {
         consolas.forEach(function (c) {
             if (data.pid === c.pid) {
                 c.write(data.data);
+
             }
         });
     }}
