@@ -154,7 +154,7 @@ var initSockets = function () {
                                 s.loginCorrect = true;
                                 s.user = user.name;
                             });
-                            socket.emit('login:token', {result: true});
+                            socket.emit('login:token', {result: true, name: user.name});
                         }
                     }
                 })
@@ -191,7 +191,7 @@ var initSockets = function () {
                                                 s.loginCorrect = true;
                                                 s.user = user.name;
                                             });
-                                            room.emit('login:user', {result: true, token: token});
+                                            room.emit('login:user', {result: true, token: token, name: user.name});
                                         }
 
                                     }

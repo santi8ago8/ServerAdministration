@@ -33,8 +33,12 @@ html5In(prop, sec)
     src url('/stylesheets/Montserrat-Bold.woff')
 
 //globals
+animationsTime = .4s
 a
     color: #00B7FF;
+
+body
+    margin: 0;
 
 body, input, button
     color: white;
@@ -49,6 +53,9 @@ body, input, button
 
 .hide
     display none;
+
+button:focus
+    outline 0
 
 //login area.
 
@@ -72,9 +79,9 @@ body, input, button
 
 @keyframes blinking
     0%
-        opacity  1;
+        opacity 1;
     50%
-        opacity  0;
+        opacity 0;
 
 .mainLogin
     text-align: center;
@@ -82,7 +89,7 @@ body, input, button
 
     .successLogin
         html5('transform-style', preserve-3d)
-        html5In('transition', transform .4s)
+        html5In('transition', transform animationsTime)
         html5('transform', rotateY(-90deg))
     .login
         box-sizing border-box
@@ -92,7 +99,7 @@ body, input, button
         margin auto
         margin-top 4em
         html5('animation-name', openingLogin)
-        html5('animation-duration', .4s)
+        html5('animation-duration', animationsTime)
         html5('animation-iteration-count', 1)
         html5('animation-timing-function', ease)
 
@@ -124,12 +131,54 @@ body, input, button
         button
             html5('transform-style', preserve-3d)
             html5('transform-origin', 50% 0%)
-            html5In('transition', transform .5s)
+            html5In('transition', transform animationsTime)
         button.logging
             html5('animation-name', logging)
             html5('animation-duration', 1.5s)
             html5('animation-iteration-count', infinite)
             html5('animation-timing-function', linear)
+
+anchoHead = 40px;
+
+@keyframes headOpen
+    0%
+        html5('transform', rotateX(-90deg))
+    100%
+        html5('transform', rotateX(0deg))
+
+.termControll
+    position relative;
+    html5('perspective', 800px)
+    header.close
+        html5('transform-style', preserve-3d)
+        html5In('transition', transform animationsTime)
+        html5('transform', rotateX(-90deg))
+    header.open
+        html5('animation-name', headOpen)
+        html5('animation-duration', animationsTime)
+        html5('animation-iteration-count', 1)
+        html5('animation-timing-function', ease)
+    header
+        html5('transform-style', preserve-3d)
+        html5('transform-origin', 50% 0%)
+        text-align right;
+        left: 0px;
+        top: 0px;
+        right: 0px;
+        position: fixed;
+        background-color #5C97BF;
+        height anchoHead;
+
+        button
+            border 0;
+            height anchoHead;
+            width anchoHead;
+            cursor pointer;
+
+        .newTerm
+            background-color #22313F
+        .userConfig
+            background-color #5C97BF
 
 @media all and (max-width: 500px) and (min-width: 0px)
     .mainLogin

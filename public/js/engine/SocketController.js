@@ -50,17 +50,15 @@ define('engine/SocketController', ['io'], function (io) {
             engine.binding(data);
         });
         socket.on('login:token', function (data) {
-            console.log('login:token', data);
             if (data.result == true)
-                loginEnded();
+                loginEnded(data);
             else {
                 openLoger();
             }
         });
         socket.on('login:user', function (data) {
-            console.log(data);
             if (data.result) {
-                loginController.emit('close');
+                loginController.emit('close', data);
                 loginController = undefined;
                 isClosedLogin = true;
                 localStorage.setItem('token', data.token);
@@ -71,11 +69,11 @@ define('engine/SocketController', ['io'], function (io) {
 
 
         var sendToSocket = function (evname, data) {
-            console.log("Writing in socket:", this, evname, data);
+            console.log("Writing in socket:", evname, data);
             socket.emit(evname, data);
         };
 
-        var loginEnded = function () {
+        var loginEnded = function (data) {
             console.log('login end');
 
 
@@ -85,7 +83,7 @@ define('engine/SocketController', ['io'], function (io) {
                 terminalController.on('endedInit', tcEndedInit);
                 terminalController.on('endUI', init);
 
-                terminalController.emit('show');
+                terminalController.emit('show', data);
             });
 
 

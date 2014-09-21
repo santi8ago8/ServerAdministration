@@ -46,15 +46,14 @@ define('engine/LoginController', ['boq', 'engine/Eventer', 'text!/html/t_login.h
 
     };
 
-    LoginController.prototype.close = function () {
+    LoginController.prototype.close = function (data) {
         engine.unbinder('login:');
         this.parent.q('.login').f().classList.add('successLogin');
         this.parent.q('.incData').hide();
         var tm = boq.timeout(410, this);
         tm.then(function () {
-            console.log('close');
             this.parent.q('.mainLogin').remove();
-            this.emit('endUI');
+            this.emit('endUI', data);
         });
     };
     LoginController.prototype.incData = function () {

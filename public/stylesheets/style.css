@@ -21,6 +21,9 @@
 a {
   color: #00b7ff;
 }
+body {
+  margin: 0;
+}
 body,
 input,
 button {
@@ -36,6 +39,9 @@ button {
 }
 .hide {
   display: none;
+}
+button:focus {
+  outline: 0;
 }
 .mainLogin {
   text-align: center;
@@ -139,10 +145,10 @@ button {
   -moz-transform-origin: 50% 0%;
   -o-transform-origin: 50% 0%;
   transform-origin: 50% 0%;
-  -webkit-transition: -webkit-transform 0.5s;
-  -moz-transition: -moz-transform 0.5s;
-  -o-transition: -o-transform 0.5s;
-  transition: transform 0.5s;
+  -webkit-transition: -webkit-transform 0.4s;
+  -moz-transition: -moz-transform 0.4s;
+  -o-transition: -o-transform 0.4s;
+  transition: transform 0.4s;
 }
 .mainLogin .login button.logging {
   -webkit-animation-name: logging;
@@ -161,6 +167,74 @@ button {
   -moz-animation-timing-function: linear;
   -o-animation-timing-function: linear;
   animation-timing-function: linear;
+}
+.termControll {
+  position: relative;
+  -webkit-perspective: 800px;
+  -moz-perspective: 800px;
+  -o-perspective: 800px;
+  perspective: 800px;
+}
+.termControll header.close {
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 0.4s;
+  -moz-transition: -moz-transform 0.4s;
+  -o-transition: -o-transform 0.4s;
+  transition: transform 0.4s;
+  -webkit-transform: rotateX(-90deg);
+  -moz-transform: rotateX(-90deg);
+  -o-transform: rotateX(-90deg);
+  transform: rotateX(-90deg);
+}
+.termControll header.open {
+  -webkit-animation-name: headOpen;
+  -moz-animation-name: headOpen;
+  -o-animation-name: headOpen;
+  animation-name: headOpen;
+  -webkit-animation-duration: 0.4s;
+  -moz-animation-duration: 0.4s;
+  -o-animation-duration: 0.4s;
+  animation-duration: 0.4s;
+  -webkit-animation-iteration-count: 1;
+  -moz-animation-iteration-count: 1;
+  -o-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -webkit-animation-timing-function: ease;
+  -moz-animation-timing-function: ease;
+  -o-animation-timing-function: ease;
+  animation-timing-function: ease;
+}
+.termControll header {
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform-origin: 50% 0%;
+  -moz-transform-origin: 50% 0%;
+  -o-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+  text-align: right;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  position: fixed;
+  background-color: #5c97bf;
+  height: 40px;
+}
+.termControll header button {
+  border: 0;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+}
+.termControll header .newTerm {
+  background-color: #22313f;
+}
+.termControll header .userConfig {
+  background-color: #5c97bf;
 }
 @media all and (max-width: 500px) and (min-width: 0px) {
   .mainLogin .login {
@@ -401,5 +475,61 @@ button {
   }
   50% {
     opacity: 0;
+  }
+}
+@-moz-keyframes headOpen {
+  0% {
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    -o-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+  }
+  100% {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
+}
+@-webkit-keyframes headOpen {
+  0% {
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    -o-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+  }
+  100% {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
+}
+@-o-keyframes headOpen {
+  0% {
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    -o-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+  }
+  100% {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
+}
+@keyframes headOpen {
+  0% {
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    -o-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+  }
+  100% {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
   }
 }

@@ -12,10 +12,15 @@ define('engine/TerminalController', ['boq', 'engine/Eventer', 'text!/html/t_tcon
         this.on('show', this.show);
     }
 
-    TerminalController.prototype.show = function () {
+    TerminalController.prototype.show = function (data) {
         var self = this;
         this.parent.html(t_tcontroll);
         this.els = {};
+        this.els.header = this.parent.q('header');
+        this.els.userName = this.parent.q('.userName').html(data.name);
+        this.els.logout = this.parent.q('.userConfig').on('click', function (data) {
+            self.socketWriter('logout', {token: localStorage.getItem('token')});
+        });
 
 
         // para enviar ready to receive
@@ -23,7 +28,9 @@ define('engine/TerminalController', ['boq', 'engine/Eventer', 'text!/html/t_tcon
     };
 
     TerminalController.prototype.close = function () {
-        //engine.unbinder('login:');
+        //engine.unbinder('terc:');
+        console.log('closing');
+        this.els.header.f().classList.add('close');
 
         //wait animation.
         var tm = boq.timeout(410, this);
