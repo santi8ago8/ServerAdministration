@@ -53,22 +53,28 @@ define('engine/TerminalController', ['boq', 'engine/Eventer', 'text!/html/t_tcon
         })
     };
     TerminalController.prototype.closeTerminal = function (data) {
-        this.terminals.each(function (t) {
-            if (t.pid == data.pid)
+        for (var i = 0; i < this.terminals.length; i++) {
+            var t = this.terminals[i];
+
+            if (t.pid == data.pid) {
                 t.emit('close', data);
-        })
+                this.terminals.removeAt(i);
+                i--;
+            }
+        }
     };
 
     TerminalController.prototype.close = function () {
-        //engine.unbinder('terc:');
-        console.log('closing');
-        this.els.header.f().classList.add('close');
         this.terminals.each(function (t) {
             t.emit('close');
         });
 
+        console.log('closing');
+        this.els.header.f().classList.add('close');
+
+
         //wait animation.
-        var tm = boq.timeout(410, this);
+        var tm = boq.timeout(420, this);
         tm.then(function () {
             //finally end.
             this.emit('endUI');

@@ -1,4 +1,4 @@
-define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.html', 'Terminal', 'boq.dom'], function (boq, Eventer, t_terminal, Terminal) {
+define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.html', 'Terminal', 'engine/Dragger', 'boq.dom'], function (boq, Eventer, t_terminal, Terminal, Dragger) {
 
     var engine = require('engine');
 
@@ -17,6 +17,10 @@ define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.h
         this.els.head = this.els.main.qs('.head');
         this.els.title = this.els.main.qs('.title');
         this.els.console = this.els.main.qs('.console');
+        Dragger({
+            area: this.els.main,
+            zone: this.els.head
+        });
 
         var t = new Terminal({
             cols: 80,
@@ -47,7 +51,7 @@ define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.h
 
     TerminalView.prototype.data = function (data) {
         this.term.write(data.data);
-        console.log(data);
+        //console.log(data);
         if (data.process) {
             this.els.title.html(data.process);
         }

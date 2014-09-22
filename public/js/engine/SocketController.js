@@ -81,7 +81,7 @@ define('engine/SocketController', ['io'], function (io) {
 
 
         var sendToSocket = function (evname, data) {
-            console.log("Writing in socket:", evname, data);
+            //console.log("Writing in socket:", evname, data);
             socket.emit(evname, data);
         };
 
