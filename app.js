@@ -87,7 +87,7 @@ var server;
 if (options)
     server = https.createServer(options, app).listen(port);
 else
-    server = http.createServer({}.app).listen(port);
+    server = http.createServer({},app).listen(port);
 require('./routes/sockets').init(server);
 console.log('listen in port: ' + port);
 module.exports = app;
