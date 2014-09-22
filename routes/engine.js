@@ -1,11 +1,13 @@
+var config = require('../config');
 var Db = require('mongodb').Db,
     Server = require('mongodb').Server;
-var config = require('../config');
+
 var db = new Db(
     config.mongo.db,
     new Server(config.mongo.host, config.mongo.port),
     {w: 1}
 );
+
 var users = db.collection(config.mongo.collUsers);
 var commands = db.collection(config.mongo.collCommands);
 
@@ -44,12 +46,12 @@ db.open(function (err, db) {
 //error handler
 var errorHandler = {
     run: function (cb) {
-       // try {
+        try {
             cb();
-        //}
-        //catch (ex) {
-        //    console.log(ex, ex.stack);
-        //}
+        }
+        catch (ex) {
+            console.log(ex, ex.stack);
+        }
     }
 };
 

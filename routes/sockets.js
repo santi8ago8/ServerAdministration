@@ -21,7 +21,8 @@ exports.initMongo = function (db) {
 
 function startUp() {
 
-    engine.commands.find().toArray(function (err, resp) {
+    engine.commands.find({}).toArray(function (err, resp) {
+        console.log(arguments);
         if (err)
             console.log(err);
         else {
@@ -177,6 +178,7 @@ var initSockets = function () {
                         if (!user)
                             io.to(socket.roomSession).emit('login:token', {result: false});
                         else {
+                            user = user[0];
                             var sockets = get_sockets_by_room(socket.roomSession);
                             sockets.forEach(function (s) {
                                 s.loginCorrect = true;

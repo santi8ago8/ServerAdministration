@@ -19,6 +19,7 @@ module.exports = {
         password: 'bar',
         tokens: []
     },
+
     //mongo config
     mongo: {
         host: 'localhost',
