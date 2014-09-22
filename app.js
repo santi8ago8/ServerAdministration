@@ -7,6 +7,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var https = require('https');
+var http = require('http');
 var session = require('express-session');
 
 var routes = require('./routes/index');
@@ -77,10 +78,16 @@ try {
 
 }
 catch (e) {
-    console.log('Create the certificate');
+    console.log('Create the certificate! is more secure');
+    options = undefined;
 }
-var port = 3000;
-var server = https.createServer(options, app).listen(port);
+
+var port = require('./config').port;
+var server;
+if (options)
+    server = https.createServer(options, app).listen(port);
+else
+    server = http.createServer({}.app).listen(port);
 require('./routes/sockets').init(server);
 console.log('listen in port: ' + port);
 module.exports = app;

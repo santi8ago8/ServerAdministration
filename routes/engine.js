@@ -44,12 +44,12 @@ db.open(function (err, db) {
 //error handler
 var errorHandler = {
     run: function (cb) {
-        try {
+       // try {
             cb();
-        }
-        catch (ex) {
-            console.log(ex, ex.stack);
-        }
+        //}
+        //catch (ex) {
+        //    console.log(ex, ex.stack);
+        //}
     }
 };
 

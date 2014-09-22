@@ -6,6 +6,8 @@
 
 module.exports = {
 
+    port: 3000,
+
     //created when no commands
     firstCommands: [
         {command: 'echo Welcome to server admin!'}

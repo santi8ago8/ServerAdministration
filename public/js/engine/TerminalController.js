@@ -1,23 +1,26 @@
-define('engine/TerminalController', ['boq', 'engine/Eventer', 'text!/html/t_tcontroll.html', 'Terminal', 'boq.dom'], function (boq, Eventer, t_tcontroll, Terminal) {
+define('engine/TerminalController', ['boq', 'engine/Eventer', 'text!/html/t_tcontroll.html', 'engine/TerminalView', 'boq.dom'], function (boq, Eventer, t_tcontroll, TV) {
 
     var engine = require('engine');
 
     function TerminalController(parent, socketWriter) {
         this.parent = boq.u.qs(parent);
         this.socketWriter = socketWriter;
+        this.terminals = boq.Array();
         Eventer(this);
 
 
         this.on('close', this.close);
-        this.on('open', this.openTerminal);
+        this.on('term:open', this.openTerminal);
+        this.on('term:close', this.closeTerminal);
         this.on('show', this.show);
-        this.on('data', this.data);
+        this.on('term:data', this.data);
     }
 
     TerminalController.prototype.show = function (data) {
         var self = this;
         this.parent.html(t_tcontroll);
         this.els = {};
+
         this.els.header = this.parent.q('header');
         this.els.userName = this.parent.q('.userName').html(data.name);
         this.els.newter = this.parent.q('.newTerm').on('click', function (data) {
@@ -37,31 +40,32 @@ define('engine/TerminalController', ['boq', 'engine/Eventer', 'text!/html/t_tcon
         //send open to socket.
         this.socketWriter('binding', {id: 'term:open'});
     };
-    var ter;
     TerminalController.prototype.openTerminal = function (data) {
         var self = this;
-        var t = new Terminal({
-            cols: 80,
-            rows: 30,
-            screenKeys: true
-        });
-        ter = t;
-        t.pid = data.pid;
-
-        t.on('data', function (d) {
-            self.socketWriter('binding', {id: 'term:write', data: d, pid: t.pid});
-        });
-        t.open(this.els.console.f());
-
+        var t = new TV(self.parent, self.socketWriter, data);
+        this.terminals.add(t);
     };
     TerminalController.prototype.data = function (data) {
-        ter.write(data.data)
+
+        this.terminals.each(function (t) {
+            if (t.pid == data.pid)
+                t.emit('data', data);
+        })
+    };
+    TerminalController.prototype.closeTerminal = function (data) {
+        this.terminals.each(function (t) {
+            if (t.pid == data.pid)
+                t.emit('close', data);
+        })
     };
 
     TerminalController.prototype.close = function () {
         //engine.unbinder('terc:');
         console.log('closing');
         this.els.header.f().classList.add('close');
+        this.terminals.each(function (t) {
+            t.emit('close');
+        });
 
         //wait animation.
         var tm = boq.timeout(410, this);

@@ -38,7 +38,7 @@ function startUp() {
 var terminal = function () {
 
     var self = this;
-    self.rows = 30;
+    self.rows = 20;
     self.cols = 80;
     self.queue = new ds.Queue();
 
@@ -46,7 +46,7 @@ var terminal = function () {
     self.lastBufferIndex = 0;
     self.queue.enqueue(self.lastBuffer);
 
-    self.term = pty.spawn('bash', [], {
+    self.term = pty.fork('bash', [], {
         name: ' ',
         cols: self.cols,
         rows: self.rows,
@@ -58,19 +58,33 @@ var terminal = function () {
         self.term.write(data);
     };
     self.term.on('data', function (data) {
+
         if (data != null) {
+
 
             self.queue.enqueue(data);
 
             if (self.queue.size > 200) {
                 self.queue.dequeue();
             }
-            //TODO: view heere
-            io.emit('ter:data', {data: data, pid: self.pid});
+
+            var d = {data: data, pid: self.pid};
+            if (self.process != self.term.process) {
+                d.process = self.term.process;
+                self.process = d.process
+            }
+            io.to('global').emit('term:data', d);
         }
     });
     self.term.on('close', function (data) {
-        io.emit('ter:close', {pid: self.pid, exit: data});
+        io.to('global').emit('term:close', {pid: self.pid, exit: data});
+        for (var i = 0; i < consolas.length; i++) {
+            var c = consolas[i];
+            if (c.pid == self.pid) {
+                consolas.splice(i, 1);
+                i--;
+            }
+        }
     });
 
 
@@ -87,8 +101,7 @@ var initSockets = function () {
         socket.roomSession = connect_sid;
         socket.join(connect_sid);
 
-        if (!socket.loged)
-            socket.emit('login', {result: false});
+        socket.emit('login', {result: false});
 
 
         next();
@@ -97,20 +110,22 @@ var initSockets = function () {
     io.on('connection', function (socket) {
 
 
-        var doRest = function (user) {
+        var doRest = function () {
             socket.loginCorrect = true;
-            socket.roomLogged = user.name;
+
+            socket.roomLogged = socket.user;
             socket.roomGlobal = 'global';
             socket.join(socket.roomLogged);
             socket.join(socket.roomGlobal);
 
             consolas.forEach(function (c) {
-                socket.emit('ter:open', {pid: c.pid});
-                socket.emit('ter:data', {data: c.queue._content.join(''), pid: c.pid});
+                socket.emit('term:open', {pid: c.pid});
+                socket.emit('term:data', {data: c.queue._content.join(''), pid: c.pid, process: c.term.process});
             })
         };
 
         socket.on('logout', function (data) {
+
             //destroy token.
             d.run(function () {
                 engine.users.update(
@@ -126,8 +141,21 @@ var initSockets = function () {
                         if (err)
                             console.log(err);
                         else {
-                            if (resp > 0)
+                            if (resp > 0) {
+                                var sockets = get_sockets_by_room(socket.roomSession);
+
+                                var roomLogged = socket.roomLogged;
+                                var roomGlobal = socket.roomGlobal;
+
+                                sockets.forEach(function (s) {
+                                    s.leave(roomLogged);
+                                    s.leave(roomGlobal);
+                                    delete s.roomLogged;
+                                    delete s.roomGlobal;
+                                    delete s.loginCorrect;
+                                });
                                 io.to(socket.roomSession).emit('logout');
+                            }
                         }
                     });
 
@@ -149,8 +177,8 @@ var initSockets = function () {
                         if (!user)
                             io.to(socket.roomSession).emit('login:token', {result: false});
                         else {
-                            var room = io.to(socket.roomSession);
-                            room.sockets.forEach(function (s) {
+                            var sockets = get_sockets_by_room(socket.roomSession);
+                            sockets.forEach(function (s) {
                                 s.loginCorrect = true;
                                 s.user = user.name;
                             });
@@ -171,7 +199,6 @@ var initSockets = function () {
                         if (err)
                             console.log(err);
                         else {
-
                             if (!user)
                                 io.to(socket.roomSession).emit('login:user', {result: false});
                             else {
@@ -184,14 +211,14 @@ var initSockets = function () {
                                     {upsert: false, multi: false},
                                     function (err, updated) {
                                         if (err)
-                                            console.log('saving token', err);
+                                            console.log('saving token err', err);
                                         else {
-                                            var room = io.to(socket.roomSession);
-                                            room.sockets.forEach(function (s) {
+                                            var sockets = get_sockets_by_room(socket.roomSession);
+                                            sockets.forEach(function (s) {
                                                 s.loginCorrect = true;
                                                 s.user = user.name;
                                             });
-                                            room.emit('login:user', {result: true, token: token, name: user.name});
+                                            io.to(socket.roomSession).emit('login:user', {result: true, token: token, name: user.name});
                                         }
 
                                     }
@@ -229,10 +256,10 @@ var initSockets = function () {
                     if (bind.mode == 'session') {
                         room = socket.roomSession;
                     }
-                    if (bind.mode == 'account') {
+                    if (bind.mode == 'account' && socket.roomLogged) {
                         room = socket.roomLogged;
                     }
-                    if (bind.mode == 'global') {
+                    if (bind.mode == 'global' && socket.roomGlobal) {
                         room = socket.roomGlobal;
                     }
 
@@ -250,6 +277,18 @@ var initSockets = function () {
     })
 
 };
+
+function get_sockets_by_room(room) {
+    var resp = [];
+    io.sockets.sockets.forEach(function (s) {
+        s.rooms.forEach(function (r) {
+            if (r === room) {
+                resp.push(s);
+            }
+        })
+    });
+    return resp;
+}
 
 function getBinding(id) {
     var ret;
@@ -280,6 +319,8 @@ var bindings = [
     {id: 'term:open', mode: 'global', toMe: true, cb: function (socket, data, room) {
         var t = new terminal();
         consolas.push(t);
+        var room = io.to('global');
+        room.emit('term:open', {pid: t.pid});
     }},
     {id: 'term:write', mode: 'global', toMe: true, cb: function (_, data) {
         consolas.forEach(function (c) {

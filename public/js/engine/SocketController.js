@@ -34,10 +34,8 @@ define('engine/SocketController', ['io'], function (io) {
 
         socket.on('login', init);
 
-        socket.on('ter:data', function (data) {
-            //TODO: made
-            //console.log(data);
-            terminalController.emit('data', data);
+        socket.on('term:data', function (data) {
+            terminalController.emit('term:data', data);
 
             function clearColors(text) {
                 var re = /\033\[[0-9;]*m/;
@@ -52,19 +50,13 @@ define('engine/SocketController', ['io'], function (io) {
 
             }
 
-            if (true) {
-                console.log(clearColors(data.data), data.data.charCodeAt(0));
-            }
             //console.log(clearColors(data.data))
         });
-        socket.on('ter:open', function (data) {
-            //TODO: made
-            console.log(data);
-            terminalController.emit('open', data);
+        socket.on('term:open', function (data) {
+            terminalController.emit('term:open', data);
         });
-        socket.on('ter:close', function (data) {
-            //TODO: made
-            console.log(data);
+        socket.on('term:close', function (data) {
+            terminalController.emit('term:close', data)
         });
         socket.on('binding', function (data) {
             engine.binding(data);

@@ -2,12 +2,14 @@
 html5(prop, args)
     -webkit-{prop} args
     -moz-{prop} args
+    -ms-{prop} args
     -o-{prop} args
     {prop} args
 
 html5In(prop, sec)
     -webkit-{prop} unquote('-webkit-' + sec)
     -moz-{prop} unquote('-moz-' + sec)
+    -ms-{prop} unquote('-o-' + sec)
     -o-{prop} unquote('-o-' + sec)
     {prop} unquote('' + sec)
 
@@ -179,9 +181,57 @@ anchoHead = 40px;
             background-color #22313F
         .userConfig
             background-color #5C97BF
-    .terminal
-        font-family monospace;
-        font-size 13px
+
+//TerminalViewCat.
+
+@keyframes titleOpen
+    0%
+        html5('transform', rotateY(90deg))
+    100%
+        html5('transform', rotateY(0deg))
+
+@keyframes consoleOpen
+    0%
+        html5('transform', rotateX(90deg))
+    100%
+        html5('transform', rotateX(0deg))
+
+article
+    html5('perspective', 800px)
+
+    position absolute
+    top 50px
+    left 50px;
+    font-family monospace;
+    font-size 13px
+    .head
+        html5('transform-style', preserve-3d)
+        html5('transform-origin', 0% 50%)
+        html5('animation-name', titleOpen)
+        html5('animation-duration', animationsTime)
+        html5('animation-iteration-count', 1)
+        html5('animation-timing-function', ease)
+        color: whitesmoke;
+        background-color #22313F
+        .title
+            float: right
+            padding 2px 5px
+    .console
+        width 630px;
+        html5('transform-style', preserve-3d)
+        html5('transform-origin', 0% top)
+        html5('animation-name', consoleOpen)
+        html5('animation-duration', animationsTime)
+        html5('animation-iteration-count', 1)
+        html5('animation-timing-function', ease)
+    div.head.close
+        html5('transform-style', preserve-3d)
+        html5In('transition', transform animationsTime)
+        html5('transform', rotateY(111deg))
+    div.console.close
+        html5('transform-style', preserve-3d)
+        html5In('transition', transform animationsTime)
+        html5('transform', rotateX(-100deg))
 
 @media all and (max-width: 500px) and (min-width: 0px)
     .mainLogin
