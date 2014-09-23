@@ -1,6 +1,5 @@
 var express = require('express');
 var path = require('path');
-
 var fs = require('fs');
 var swig = require('swig');
 var favicon = require('static-favicon');
@@ -72,17 +71,19 @@ app.use(function (err, req, res, next) {
 var options = {};
 
 try {
-    options.key = fs.readFileSync('./ssl/server.key');
-    options.cert = fs.readFileSync('./ssl/server.crt');
-    options.ca = fs.readFileSync('./ssl/ca.crt');
+    console.log(__dirname);
+    options.key = fs.readFileSync((__dirname + '/ssl/server.key'));
+    options.cert = fs.readFileSync((__dirname + '/ssl/server.crt'));
+    options.ca = fs.readFileSync((__dirname + '/ssl/ca.crt'));
 
 }
 catch (e) {
-    console.log('Create the certificate! is more secure');
+    console.log(e, e.stack);
+    console.log('Create the certificate! is more secure in the ssl folder.');
     options = undefined;
 }
 
-var port = require('./config').port;
+var port = process.env.PORT || 3000;
 var server;
 if (options)
     server = https.createServer(options, app).listen(port);

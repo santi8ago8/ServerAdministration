@@ -1,3 +1,5 @@
+sudo mkdir ./ssl
+
 sudo apt-get install openssl
 
 openssl genrsa -des3 -out ca.key 1024
