@@ -192,12 +192,14 @@ anchoHead = 40px;
 
 @keyframes consoleOpen
     0%
-        html5('transform', rotateX(90deg))
+        max-height 0px
+        //html5('transform', rotateX(-90deg))
     100%
-        html5('transform', rotateX(0deg))
+        max-height 300px
+        // html5('transform', rotateX(0deg))
 
 article
-    html5('perspective', 800px)
+
 
     position absolute
     top 50px
@@ -205,7 +207,6 @@ article
     font-family monospace;
     font-size 13px
     .head
-        html5('transform-style', preserve-3d)
         html5('transform-origin', 0% 50%)
         html5('animation-name', titleOpen)
         html5('animation-duration', animationsTime)
@@ -216,10 +217,16 @@ article
         .title
             float: right
             padding 2px 5px
+        .minBtn
+            float left;
+            cursor pointer
+            padding 2px 5px
+
     .console
+        overflow hidden
         width 630px;
-        html5('transform-style', preserve-3d)
         html5('transform-origin', 0% top)
+    .console.open
         html5('animation-name', consoleOpen)
         html5('animation-duration', animationsTime)
         html5('animation-iteration-count', 1)
@@ -227,11 +234,10 @@ article
     div.head.close
         html5('transform-style', preserve-3d)
         html5In('transition', transform animationsTime)
-        html5('transform', rotateY(111deg))
+        html5('transform', rotateY(90deg))
     div.console.close
-        html5('transform-style', preserve-3d)
-        html5In('transition', transform animationsTime)
-        html5('transform', rotateX(-100deg))
+        html5In('transition', max-height animationsTime)
+        max-height 0px
 
 @media all and (max-width: 500px) and (min-width: 0px)
     .mainLogin

@@ -267,11 +267,6 @@ button:focus {
   background-color: #5c97bf;
 }
 article {
-  -webkit-perspective: 800px;
-  -moz-perspective: 800px;
-  -ms-perspective: 800px;
-  -o-perspective: 800px;
-  perspective: 800px;
   position: absolute;
   top: 50px;
   left: 50px;
@@ -279,11 +274,6 @@ article {
   font-size: 13px;
 }
 article .head {
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  -o-transform-style: preserve-3d;
-  transform-style: preserve-3d;
   -webkit-transform-origin: 0% 50%;
   -moz-transform-origin: 0% 50%;
   -ms-transform-origin: 0% 50%;
@@ -316,18 +306,21 @@ article .head .title {
   float: right;
   padding: 2px 5px;
 }
+article .head .minBtn {
+  float: left;
+  cursor: pointer;
+  padding: 2px 5px;
+}
 article .console {
+  overflow: hidden;
   width: 630px;
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  -o-transform-style: preserve-3d;
-  transform-style: preserve-3d;
   -webkit-transform-origin: 0% top;
   -moz-transform-origin: 0% top;
   -ms-transform-origin: 0% top;
   -o-transform-origin: 0% top;
   transform-origin: 0% top;
+}
+article .console.open {
   -webkit-animation-name: consoleOpen;
   -moz-animation-name: consoleOpen;
   -ms-animation-name: consoleOpen;
@@ -360,28 +353,19 @@ article div.head.close {
   -ms-transition: -o-transform 0.4s;
   -o-transition: -o-transform 0.4s;
   transition: transform 0.4s;
-  -webkit-transform: rotateY(111deg);
-  -moz-transform: rotateY(111deg);
-  -ms-transform: rotateY(111deg);
-  -o-transform: rotateY(111deg);
-  transform: rotateY(111deg);
+  -webkit-transform: rotateY(90deg);
+  -moz-transform: rotateY(90deg);
+  -ms-transform: rotateY(90deg);
+  -o-transform: rotateY(90deg);
+  transform: rotateY(90deg);
 }
 article div.console.close {
-  -webkit-transform-style: preserve-3d;
-  -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  -o-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  -webkit-transition: -webkit-transform 0.4s;
-  -moz-transition: -moz-transform 0.4s;
-  -ms-transition: -o-transform 0.4s;
-  -o-transition: -o-transform 0.4s;
-  transition: transform 0.4s;
-  -webkit-transform: rotateX(-100deg);
-  -moz-transform: rotateX(-100deg);
-  -ms-transform: rotateX(-100deg);
-  -o-transform: rotateX(-100deg);
-  transform: rotateX(-100deg);
+  -webkit-transition: -webkit-max-height 0.4s;
+  -moz-transition: -moz-max-height 0.4s;
+  -ms-transition: -o-max-height 0.4s;
+  -o-transition: -o-max-height 0.4s;
+  transition: max-height 0.4s;
+  max-height: 0px;
 }
 @media all and (max-width: 500px) and (min-width: 0px) {
   .mainLogin .login {
@@ -782,65 +766,33 @@ article div.console.close {
 }
 @-moz-keyframes consoleOpen {
   0% {
-    -webkit-transform: rotateX(90deg);
-    -moz-transform: rotateX(90deg);
-    -ms-transform: rotateX(90deg);
-    -o-transform: rotateX(90deg);
-    transform: rotateX(90deg);
+    max-height: 0px;
   }
   100% {
-    -webkit-transform: rotateX(0deg);
-    -moz-transform: rotateX(0deg);
-    -ms-transform: rotateX(0deg);
-    -o-transform: rotateX(0deg);
-    transform: rotateX(0deg);
+    max-height: 300px;
   }
 }
 @-webkit-keyframes consoleOpen {
   0% {
-    -webkit-transform: rotateX(90deg);
-    -moz-transform: rotateX(90deg);
-    -ms-transform: rotateX(90deg);
-    -o-transform: rotateX(90deg);
-    transform: rotateX(90deg);
+    max-height: 0px;
   }
   100% {
-    -webkit-transform: rotateX(0deg);
-    -moz-transform: rotateX(0deg);
-    -ms-transform: rotateX(0deg);
-    -o-transform: rotateX(0deg);
-    transform: rotateX(0deg);
+    max-height: 300px;
   }
 }
 @-o-keyframes consoleOpen {
   0% {
-    -webkit-transform: rotateX(90deg);
-    -moz-transform: rotateX(90deg);
-    -ms-transform: rotateX(90deg);
-    -o-transform: rotateX(90deg);
-    transform: rotateX(90deg);
+    max-height: 0px;
   }
   100% {
-    -webkit-transform: rotateX(0deg);
-    -moz-transform: rotateX(0deg);
-    -ms-transform: rotateX(0deg);
-    -o-transform: rotateX(0deg);
-    transform: rotateX(0deg);
+    max-height: 300px;
   }
 }
 @keyframes consoleOpen {
   0% {
-    -webkit-transform: rotateX(90deg);
-    -moz-transform: rotateX(90deg);
-    -ms-transform: rotateX(90deg);
-    -o-transform: rotateX(90deg);
-    transform: rotateX(90deg);
+    max-height: 0px;
   }
   100% {
-    -webkit-transform: rotateX(0deg);
-    -moz-transform: rotateX(0deg);
-    -ms-transform: rotateX(0deg);
-    -o-transform: rotateX(0deg);
-    transform: rotateX(0deg);
+    max-height: 300px;
   }
 }

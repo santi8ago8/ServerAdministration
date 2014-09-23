@@ -4,6 +4,7 @@ define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.h
 
     function TerminalView(parent, socketWriter, data) {
         Eventer(this);
+        var self = this;
         var temp = document.createElement('div');
         temp.innerHTML = t_terminal;
         var nodo = temp.children[0];
@@ -16,6 +17,9 @@ define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.h
         this.els.main = boq.qs(nodo);
         this.els.head = this.els.main.qs('.head');
         this.els.title = this.els.main.qs('.title');
+        this.els.minimize = this.els.main.qs('.minBtn').on('click', function (data) {
+            self.minimize();
+        });
         this.els.console = this.els.main.qs('.console');
         Dragger({
             area: this.els.main,
@@ -29,7 +33,7 @@ define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.h
         });
         this.pid = data.pid;
         this.term = t;
-        var self = this;
+
         t.on('data', function (d) {
             self.socketWriter('binding', {id: 'term:write', data: d, pid: self.pid});
         });
@@ -54,6 +58,17 @@ define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.h
         //console.log(data);
         if (data.process) {
             this.els.title.html(data.process);
+        }
+    };
+
+    TerminalView.prototype.minimize=function() {
+        if (this.els.console.f().classList.contains('close')) {
+            this.els.console.f().classList.remove('close');
+            this.els.console.f().classList.add('open');
+
+        } else {
+            this.els.console.f().classList.add('close');
+            this.els.console.f().classList.remove('open');
         }
     };
 
