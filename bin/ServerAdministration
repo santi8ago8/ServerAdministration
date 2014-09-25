@@ -1,0 +1,51 @@
+#!/bin/sh
+#/etc/init.d/ServerAdministration
+#
+# thanks to this user
+# Marcio S Galli (@taboca)
+# http://labs.telasocial.com/nodejs-forever-daemon/
+#
+
+#forever path
+export PATH=$PATH:/usr/local/bin
+#node modules path
+export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
+#port to run server.
+PORT=3000
+#sourceDir
+SOURCEDIR=/home/santi8ago8/GitHub/ServerAdministration
+
+start(){
+    echo "Starting ServerAdministration"
+
+    sudo PORT=$PORT forever start --sourceDir=$SOURCEDIR -p $SOURCEDIR/forever.pid -l $SOURCEDIR/forever.log --append --uid="ServerAdministration" ServerAdministration.js
+
+    RETVAL=$?
+}
+stopServ(){
+    echo "Stoping ServerAdministration"
+    sudo forever stop ServerAdministration
+    $RETVAL=0
+}
+case "$1" in
+    start)
+        start
+    ;;
+    stop)
+        stopServ
+    ;;
+    restart)
+        stopServ
+        start
+    ;;
+    status)
+        echo "Status ServerAdministration"
+        sudo forever logs ServerAdministration.js
+	;;
+    *)
+        echo "Usage: sudo ServerAdministration {start|stop|status|restart}"
+        exit 1
+    ;;
+esac
+
+exit $RETVAL

@@ -1,4 +1,5 @@
 sudo mkdir ./ssl
+cd ssl
 
 sudo apt-get install openssl
 

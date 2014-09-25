@@ -7,17 +7,32 @@ instalation:
 copy this repo in one folder.
 
 
-Change the required parameters in the file ServerAdministration
 
-Copy the file ServerAdministration to   
-/etc/init.d/ServerAdministration  
 
+Add to the file /etc/rc.local (before exit)
+
+    sudo ServerAdministration start
+    
+
+
+Change the required parameters in the file 
+
+    /usr/local/bin/ServerAdministration
+    #forever path
+    export PATH=$PATH:/usr/local/bin
+    #node modules path
+    export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
+    #port to run server.
+    PORT=3000
+    #sourceDir
+    SOURCEDIR=/home/santi8ago8/GitHub/ServerAdministration
 Run: 
-    sudo /etc/init.d/ServerAdministration start --force
-    sudo update-rc.d ServerAdministration defaults
+    npm install ServerAdministration
+    sudo ServerAdministration start 
+
     
 Finally, reboot to be sure the ServerAdministration application starts automatically:
 
     sudo reboot
 
-if you are interested in security creates the certificates ssl (creating_cert.txt)
+if you are interested in security creates the certificates ssl view file: creating_cert.txt

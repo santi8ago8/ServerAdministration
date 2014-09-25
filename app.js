@@ -105,3 +105,10 @@ process.on('SIGINT', function () {
     //TODO: hacer.
     process.exit();
 });
+/*
+process.on('SIGKILL', function () {
+    console.log('maaaaadeee SIGKILL!!!!');
+    //TODO: hacer.
+    process.exit();
+});
+*/
