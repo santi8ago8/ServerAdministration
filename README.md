@@ -26,10 +26,11 @@ Change the required parameters in the file
     PORT=3000
     #sourceDir
     SOURCEDIR=/home/santi8ago8/GitHub/ServerAdministration
-Run: 
-    npm install ServerAdministration
-    sudo ServerAdministration start 
-
+then run:
+```
+npm install ServerAdministration
+sudo ServerAdministration start 
+```
     
 Finally, reboot to be sure the ServerAdministration application starts automatically:
 
