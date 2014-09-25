@@ -23,7 +23,14 @@ app.set('view engine', 'html');
 app.set('view cache', false);
 
 app.use(favicon());
-app.use(logger('dev'));
+app.use(
+    logger({
+        format: ':method :status :response-time ms :url',
+        skip: function (req, res) {
+            return res.statusCode < 400;
+        }
+    })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 

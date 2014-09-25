@@ -3,3 +3,6 @@
 /ssl
 /log
 /pid
+forever
+forever.log
+forever.pid
