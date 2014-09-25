@@ -1,6 +1,10 @@
 #!/bin/sh
 #/etc/init.d/ServerAdministration
-
+#
+# thanks to this user
+# Marcio S Galli (@taboca)
+# http://labs.telasocial.com/nodejs-forever-daemon/
+#
 
 #forever path
 export PATH=$PATH:/usr/local/bin
