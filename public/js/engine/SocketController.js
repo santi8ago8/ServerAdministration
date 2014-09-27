@@ -1,6 +1,12 @@
-var SocketController = function (engine) {
+sA.service('SocketController', [function () {
 
     var socket = io();
+
+    var $scope;
+
+    this.SetScope = function (sc) {
+        $scope = sc;
+    };
 
     var terminalController;
     var loginController;
@@ -79,8 +85,8 @@ var SocketController = function (engine) {
     });
 
 
-    var sendToSocket = function (evname, data) {
-        //console.log("Writing in socket:", evname, data);
+    this.sendToSocket = function (evname, data) {
+        console.log("Writing in socket:", evname, data);
         socket.emit(evname, data);
     };
 
@@ -107,11 +113,15 @@ var SocketController = function (engine) {
 
     var openLoger = function () {
         if (loginController == undefined) {
-            require(['engine/LoginController'], function (LoginController) {
+
+            $scope.$apply(function () {
+                $scope.showLogin = true;
+            });
+           /* require(['engine/LoginController'], function (LoginController) {
                 loginController = new LoginController(document.body, sendToSocket);
                 loginController.on('endUI', loginEnded);
-            });
+            });*/
         }
     };
 
-};
+}]);

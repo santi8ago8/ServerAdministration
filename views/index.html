@@ -9,17 +9,16 @@
     <script src="/js/socket.io.js" type="text/javascript"></script>
 
 
-
-    <script src="/js/engine/SocketController.js" type="text/javascript"></script>
     <script src="/js/engine/engine.js" type="text/javascript"></script>
-
+    <script src="/js/engine/LoginController.js" type="text/javascript"></script>
+    <script src="/js/engine/SocketController.js" type="text/javascript"></script>
 
 </head>
 <body ng-app="ServerAdministration">
-<div class="main" ng-controller="engine"></div>
-...
-
+<div class="main" ng-controller="engine">
+    <div ng-if="showLogin" ng-controller="LoginController">
+        <login></login>
+    </div>
+</div>
 </body>
-
-
 </html>
