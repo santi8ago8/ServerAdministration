@@ -87,5 +87,4 @@ define('engine/TerminalController', ['boq', 'engine/Eventer', 'text!/html/t_tcon
 
 
     return TerminalController;
-})
-;
+});

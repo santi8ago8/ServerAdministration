@@ -107,14 +107,14 @@ sA.service('SocketController', [function () {
             //show terminal controller
         });
 
-        require(['engine/TerminalController'], function (TerminalController) {
+        /*require(['engine/TerminalController'], function (TerminalController) {
             terminalController = new TerminalController(document.body, sendToSocket);
             //when endedInit execute ready to receive.
             terminalController.on('endedInit', tcEndedInit);
             terminalController.on('endUI', init);
 
             terminalController.emit('show', data);
-        });
+        });*/
 
 
     };
@@ -130,10 +130,6 @@ sA.service('SocketController', [function () {
             $scope.$apply(function () {
                 $scope.showLogin = true;
             });
-            /* require(['engine/LoginController'], function (LoginController) {
-             loginController = new LoginController(document.body, sendToSocket);
-             loginController.on('endUI', loginEnded);
-             });*/
         }
     };
     var initListeners = function () {

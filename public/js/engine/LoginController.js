@@ -25,11 +25,6 @@ sA.controller('LoginController', ["$scope", "SocketController", function ($scope
             $scope.user.password = data.value;
         });
     });
-    /*
-     $scope.$on('user.name', function (newVal) {
-     console.log('change',newVal);
-
-     });*/
 
     $scope.close = function (ev, data) {
 
@@ -39,7 +34,6 @@ sA.controller('LoginController', ["$scope", "SocketController", function ($scope
             $scope.ui.compData = false;
         });
         var tm = setTimeout(function () {
-            //this.parent.q('.mainLogin').remove();
             $scope.$root.$emit('log:endUI', data);
         }, 410);
     };
@@ -47,7 +41,7 @@ sA.controller('LoginController', ["$scope", "SocketController", function ($scope
     $scope.incData = function () {
         $scope.$apply(function () {
             $scope.ui.incData = true;
-            $scope.ui.logging = true;
+            $scope.ui.logging = false;
         });
     };
 
