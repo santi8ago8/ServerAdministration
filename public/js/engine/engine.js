@@ -81,45 +81,29 @@ sA.controller("engine", ["$scope", "SocketController", function ($scope, SocketC
     //only one time
     SocketController.SetScope($scope);
 
-    /* var engine = {
-     binding: function (data) {
-     bindings.each(function (b) {
-     if (b.id == data.id) {
-     if (typeof b.setter == 'undefined')
-     b.el.value = data.value;
-     else
-     b.setter(data.value, b.el);
-     }
-     })
-     },
-     binder: function (boqElement, id, evName, getter, setter) {
-     var el = boqElement.f();
-     bindings.push({id: id, el: el, getter: getter, setter: setter});
-     evName = typeof evName != 'undefined' ? evName : 'keyup';
-     if (evName !== false)
-     boqElement.on(evName, function () {
-     engine.socket.emit('binding', {
-     id: id,
-     value: typeof getter != 'undefined' ? getter(el) : el.value
-     });
-     });
-     return boqElement;
-     },
-     unbinder: function (id) {
-     for (var i = 0; i < bindings.length; i++) {
-     var b = bindings[i];
-     if (b.id.lastIndexOf(id) == 0) {
-     bindings.splice(i, 1);
-     i--;
-     }
+}]);
 
-     }
-     }
-     };
+sA.directive('socketbind', ['SocketController', function (SocketController) {
+    return {
+        restrict: 'A',
 
-     engine.socket = new SocketController(engine);
-     var bindings = new Array();
-     //{id:"string,el:node[,getter:fn][,setter:fb]}
+        link: function (scope, element, attrs) {
+            console.log('link', scope, element, attrs, SocketController);
+            var fromSocket = false;
+            element.on('keyup', function (ev) {
+                SocketController.binding(attrs.socketbind, element.val());
+            });
+            scope.$watch(attrs.ngModel, function (nv) {
 
-     return engine;*/
+
+            });
+            scope.$root.$on(attrs.socketbind, function (ev, data) {
+                console.log('bind');
+                fromSocket = false;
+
+                element.val(data.value);
+            });
+
+        }
+    };
 }]);

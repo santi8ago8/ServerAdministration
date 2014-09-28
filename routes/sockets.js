@@ -314,7 +314,7 @@ function getBinding(id) {
 
 var bindings = [
     {id: 'login:name', mode: 'session', toMe: false},
-    {id: 'login:userText', mode: 'session', toMe: true},
+    {id: 'login:userText', mode: 'session', toMe: false},
     {id: 'login:pass', mode: 'session', toMe: false},
     {id: 'term:open', mode: 'global', toMe: true, cb: function (socket, data, room) {
         var t = new terminal();

@@ -1,6 +1,6 @@
 <section class="mainLogin">
     <div class="login" ng-class="{successLogin:ui.successLogin}">
-        <h1 class="title">Server Admin &gt;<span class="user"></span><span class="cursor">_</span></h1>
+        <h1 class="title">Server Admin &gt;<span class="user">{{user.name}}</span><span class="cursor">_</span></h1>
 
         <form ng-submit="submit()">
             <input type="text" id="user" ng-model="user.name" placeholder="User" autocomplete="off"/>

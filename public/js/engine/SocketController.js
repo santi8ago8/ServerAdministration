@@ -65,7 +65,8 @@ sA.service('SocketController', [function () {
         terminalController.emit('term:close', data)
     });
     socket.on('binding', function (data) {
-        engine.binding(data);
+        $scope.$root.$emit(data.id, data);
+        //engine.binding(data);
     });
     socket.on('login:token', function (data) {
         if (data.result == true)
@@ -91,10 +92,17 @@ sA.service('SocketController', [function () {
         console.log("Writing in socket:", evname, data);
         socket.emit(evname, data);
     };
+    this.binding = function (id, data) {
+        socket.emit('binding', {
+            id: id,
+            value: data
+        });
+    };
+
 
     var loginEnded = function (data) {
         console.log('login end');
-        $scope.$apply(function() {
+        $scope.$apply(function () {
             $scope.showLogin = false;
             //show terminal controller
         });

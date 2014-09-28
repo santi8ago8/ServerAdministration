@@ -2,40 +2,34 @@ sA.controller('LoginController', ["$scope", "SocketController", function ($scope
 
 
     console.log('create login');
+    $scope.user = {};
 
 
     $scope.show = function () {
-        /*var self = this;
-         this.parent.html(t_login);
-         this.els = {};
-         this.els.userText = this.parent.q('h1 .user');
-         this.form = this.parent.q('form');
-         this.form.on('submit', function (e) {
-         e.preventDefault();
-         return false;
-         });
-
-         engine.binder(this.parent.q('#user'), 'login:userText', 'keyup', undefined, function (n, el) {
-         self.els.userText.f().innerText = n;
-         });
-
-         this.els.user = engine.binder(this.parent.q('#user'), 'login:name');
-         this.els.user.f().focus();
-         this.els.pass = engine.binder(this.parent.q('#pass'), 'login:pass');
-         /*
-         ejemplo de binder en h1,
-         se pasa falso el evento para que no asigne el getter
-         pero el setter se hace aqui :D
-         engine.binder(this.parent.q('.title'), 'login:pass', false, false, function (data, el) {
-         el.innerHTML = data;
-         });
-
-         this.els.send = this.parent.q('#send').on('click', function (e) {
-         self.listButton(e)
-         });*/
-
-
+        angular.element(document.querySelector('#user')).on('keyup', function (ev) {
+            SocketController.binding('login:userText', ev.target.value);
+        });
+        angular.element(document.querySelector('#pass')).on('keyup', function (ev) {
+            SocketController.binding('login:pass', ev.target.value);
+        });
     };
+
+
+    $scope.$root.$on('login:userText', function (_, data) {
+        $scope.$apply(function () {
+            $scope.user.name = data.value;
+        });
+    });
+    $scope.$root.$on('login:pass', function (_, data) {
+        $scope.$apply(function () {
+            $scope.user.password = data.value;
+        });
+    });
+    /*
+     $scope.$on('user.name', function (newVal) {
+     console.log('change',newVal);
+
+     });*/
 
     $scope.close = function (ev, data) {
 
@@ -75,18 +69,15 @@ sA.controller('LoginController', ["$scope", "SocketController", function ($scope
 
     $scope.$root.$on('log:close', $scope.close);
     $scope.$root.$on('log:incData', $scope.incData);
-    $scope.show();
 
 }]);
 sA.directive('login', function () {
-    console.log('login directive');
     return {
         restrict: 'E',
         templateUrl: '/html/t_login.html',
         link: function (scope, element, attrs) {
             scope.ui = {};
-            scope.$emit('shown', {a: !false});
+            scope.show();
         }
     };
-
 });
