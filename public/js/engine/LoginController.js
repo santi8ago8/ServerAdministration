@@ -1,15 +1,8 @@
 sA.controller('LoginController', ["$scope", "SocketController", function ($scope, SocketController) {
 
 
-    console.log(SocketController);
+    console.log('create login');
 
-    function LoginController(parent, socketWriter) {
-        this.parent = boq.u.qs(parent);
-        this.socketWriter = socketWriter;
-        Eventer(this);
-
-
-    }
 
     $scope.show = function () {
         /*var self = this;
@@ -44,42 +37,44 @@ sA.controller('LoginController', ["$scope", "SocketController", function ($scope
 
     };
 
-    $scope.close = function (data) {
-        engine.unbinder('login:');
-        this.parent.q('.login').f().classList.add('successLogin');
-        this.parent.q('.incData').hide();
-        var tm = boq.timeout(410, this);
-        tm.then(function () {
-            this.parent.q('.mainLogin').remove();
-            this.emit('endUI', data);
+    $scope.close = function (ev, data) {
+
+        $scope.$apply(function () {
+            $scope.ui.successLogin = true;
+            $scope.ui.incData = false;
+            $scope.ui.compData = false;
         });
+        var tm = setTimeout(function () {
+            //this.parent.q('.mainLogin').remove();
+            $scope.$root.$emit('log:endUI', data);
+        }, 410);
     };
 
     $scope.incData = function () {
-        this.parent.q('.incData').show();
-        this.els.send.f().classList.remove('logging');
+        $scope.$apply(function () {
+            $scope.ui.incData = true;
+            $scope.ui.logging = true;
+        });
     };
 
-    $scope.listButton = function () {
-        var user = this.els.user.f().value;
-        var pass = this.els.pass.f().value;
-        if (user && pass) {
-            this.parent.q('.compData').hide();
-            this.parent.q('.incData').hide();
-            this.els.send.f().classList.add('logging');
-            this.socketWriter('login:user', {name: user, password: pass});
+    $scope.submit = function () {
+
+
+        if ($scope.user.name && $scope.user.password) {
+
+            $scope.ui.incData = false;
+            $scope.ui.compData = false;
+            $scope.ui.logging = true;
+            SocketController.sendToSocket('login:user', $scope.user);
         }
         else {
-            this.parent.q('.compData').show();
+            $scope.ui.compData = true;
         }
     };
 
 
-    $scope.$on('shown', function (ev, data) {
-        console.log("shown login", data);
-    });
-    $scope.$on('close', this.close);
-    $scope.$on('incData', this.incData);
+    $scope.$root.$on('log:close', $scope.close);
+    $scope.$root.$on('log:incData', $scope.incData);
     $scope.show();
 
 }]);
@@ -89,6 +84,7 @@ sA.directive('login', function () {
         restrict: 'E',
         templateUrl: '/html/t_login.html',
         link: function (scope, element, attrs) {
+            scope.ui = {};
             scope.$emit('shown', {a: !false});
         }
     };

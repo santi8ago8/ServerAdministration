@@ -1,13 +1,13 @@
 <section class="mainLogin">
-    <div class="login">
+    <div class="login" ng-class="{successLogin:ui.successLogin}">
         <h1 class="title">Server Admin &gt;<span class="user"></span><span class="cursor">_</span></h1>
 
-        <form>
-            <input type="text" id="user" placeholder="User" autocomplete="off"/>
-            <input type="password" id="pass" placeholder="Password"/>
-            <button id="send" class="bold">Login</button>
-            <span class="compData hide">Complete data!</span>
-            <span class="incData hide">Incorrect User/Password!</span>
+        <form ng-submit="submit()">
+            <input type="text" id="user" ng-model="user.name" placeholder="User" autocomplete="off"/>
+            <input type="password" id="pass" ng-model="user.password" placeholder="Password"/>
+            <button id="send" class="bold" ng-class="{logging:ui.logging}">Login</button>
+            <span class="compData" ng-show="ui.compData">Complete data!</span>
+            <span class="incData" ng-show="ui.incData">Incorrect User/Password!</span>
         </form>
     </div>
 </section>

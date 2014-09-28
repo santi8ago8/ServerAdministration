@@ -6,6 +6,7 @@ sA.service('SocketController', [function () {
 
     this.SetScope = function (sc) {
         $scope = sc;
+        initListeners();
     };
 
     var terminalController;
@@ -75,12 +76,13 @@ sA.service('SocketController', [function () {
     });
     socket.on('login:user', function (data) {
         if (data.result) {
-            loginController.emit('close', data);
+
+            $scope.$root.$emit('log:close', data);
             loginController = undefined;
             isClosedLogin = true;
             localStorage.setItem('token', data.token);
         } else {
-            loginController.emit('incData');
+            $scope.$root.$emit('log:incData');
         }
     });
 
@@ -92,7 +94,10 @@ sA.service('SocketController', [function () {
 
     var loginEnded = function (data) {
         console.log('login end');
-
+        $scope.$apply(function() {
+            $scope.showLogin = false;
+            //show terminal controller
+        });
 
         require(['engine/TerminalController'], function (TerminalController) {
             terminalController = new TerminalController(document.body, sendToSocket);
@@ -117,11 +122,14 @@ sA.service('SocketController', [function () {
             $scope.$apply(function () {
                 $scope.showLogin = true;
             });
-           /* require(['engine/LoginController'], function (LoginController) {
-                loginController = new LoginController(document.body, sendToSocket);
-                loginController.on('endUI', loginEnded);
-            });*/
+            /* require(['engine/LoginController'], function (LoginController) {
+             loginController = new LoginController(document.body, sendToSocket);
+             loginController.on('endUI', loginEnded);
+             });*/
         }
+    };
+    var initListeners = function () {
+        $scope.$root.$on('log:endUI', loginEnded);
     };
 
 }]);
