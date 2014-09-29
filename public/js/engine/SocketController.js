@@ -12,6 +12,7 @@ sA.service('SocketController', [function () {
     var terminalController;
     var loginController;
     var isClosedLogin = false;
+    var dataLogin;
 
 
     socket.on('hack', function (m) {
@@ -20,6 +21,8 @@ sA.service('SocketController', [function () {
 
     socket.on('logout', function () {
         //logout events!
+
+
         localStorage.setItem('token', '');
         if (terminalController)
             terminalController.emit('close');
@@ -29,6 +32,9 @@ sA.service('SocketController', [function () {
     });
 
     var init = function () {
+        $scope.$apply(function () {
+            $scope.showTerminalController = false;
+        });
         //try login with token:
         var token = localStorage.getItem('token');
         if (token !== '' && token !== null && token != undefined)
@@ -41,7 +47,8 @@ sA.service('SocketController', [function () {
     socket.on('login', init);
 
     socket.on('term:data', function (data) {
-        terminalController.emit('term:data', data);
+
+        $scope.$root.$emit('term:data', data);
 
         function clearColors(text) {
             var re = /\033\[[0-9;]*m/;
@@ -59,10 +66,10 @@ sA.service('SocketController', [function () {
         //console.log(clearColors(data.data))
     });
     socket.on('term:open', function (data) {
-        terminalController.emit('term:open', data);
+        $scope.$root.$emit('term:open', data)
     });
     socket.on('term:close', function (data) {
-        terminalController.emit('term:close', data)
+        $scope.$root.$emit('term:close', data)
     });
     socket.on('binding', function (data) {
         $scope.$root.$emit(data.id, data);
@@ -70,7 +77,7 @@ sA.service('SocketController', [function () {
     });
     socket.on('login:token', function (data) {
         if (data.result == true)
-            loginEnded(data);
+            loginEnded(false, data);
         else {
             openLoger();
         }
@@ -89,7 +96,7 @@ sA.service('SocketController', [function () {
 
 
     this.sendToSocket = function (evname, data) {
-        console.log("Writing in socket:", evname, data);
+        //console.log("Writing in socket:", evname, data);
         socket.emit(evname, data);
     };
     this.binding = function (id, data) {
@@ -100,21 +107,13 @@ sA.service('SocketController', [function () {
     };
 
 
-    var loginEnded = function (data) {
-        console.log('login end');
+    var loginEnded = function (_, data) {
+        console.log('login end', _, data);
+        dataLogin = data;
         $scope.$apply(function () {
             $scope.showLogin = false;
-            //show terminal controller
+            $scope.showTerminalController = true;
         });
-
-        /*require(['engine/TerminalController'], function (TerminalController) {
-            terminalController = new TerminalController(document.body, sendToSocket);
-            //when endedInit execute ready to receive.
-            terminalController.on('endedInit', tcEndedInit);
-            terminalController.on('endUI', init);
-
-            terminalController.emit('show', data);
-        });*/
 
 
     };
@@ -134,6 +133,11 @@ sA.service('SocketController', [function () {
     };
     var initListeners = function () {
         $scope.$root.$on('log:endUI', loginEnded);
+        $scope.$root.$on('tct:loginSendMeData', function (ev, cb) {
+            cb(dataLogin);
+        });
+        $scope.$root.$on('tct:endedInit', tcEndedInit);
+        $scope.$root.$on('tct:endUI', init);
     };
 
 }]);

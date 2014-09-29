@@ -1,45 +1,41 @@
-define('engine/Dragger', ['boq', 'boq.dom'], function (b) {
+function Dragger(config) {
     /**
      * config:{
      *      area: element to move
      *      zone: area from where you can move
      * }
      */
-    return function (config) {
 
-        var area = config.area;
-        var zone = config.zone;
+    var area = config.area;
+    var zone = config.zone;
 
-        //top por ahora no importa.
+    //top por ahora no importa.
 
-        area.css('top', area.f().offsetTop + "px");
-        area.css('left', area.f().offsetLeft + "px");
+    area.style.top = area.offsetTop + "px";
+    area.style.left = area.offsetLeft + "px";
 
-        var lastX;
-        var lastY;
-        var move = function (e) {
-            var x = e.clientX - lastX;
-            var y = e.clientY - lastY;
+    var lastX;
+    var lastY;
+    var move = function (e) {
+        var x = e.clientX - lastX;
+        var y = e.clientY - lastY;
 
-            area.css('top', parseInt(area.css('top')) + y + 'px');
-            area.css('left', parseInt(area.css('left')) + x + 'px');
-
-
-            lastX = e.clientX;
-            lastY = e.clientY;
-        };
+        area.style.top = parseInt(area.style.top) + y + 'px';
+        area.style.left = parseInt(area.style.left) + x + 'px';
 
 
-        zone.on('mousedown', function (e) {
-            document.addEventListener('mousemove', move);
-            lastX = e.clientX;
-            lastY = e.clientY;
+        lastX = e.clientX;
+        lastY = e.clientY;
+    };
 
-        });
-        document.addEventListener('mouseup', function (e) {
-            document.removeEventListener('mousemove', move);
-        })
 
-    }
+    zone.addEventListener('mousedown', function (e) {
+        document.addEventListener('mousemove', move);
+        lastX = e.clientX;
+        lastY = e.clientY;
 
-});
+    });
+    document.addEventListener('mouseup', function (e) {
+        document.removeEventListener('mousemove', move);
+    })
+}

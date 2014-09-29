@@ -1,43 +1,70 @@
-define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.html', 'Terminal', 'engine/Dragger', 'boq.dom'], function (boq, Eventer, t_terminal, Terminal, Dragger) {
+sA.directive('terminal', ["SocketController", function (SocketController) {
 
-    var engine = require('engine');
+    var ctr = function ($scope, $element) {
+        $scope.pid;
+        $scope.minimized = false;
+        $scope.closing = false;
+        $scope.shown = function (attrs) {
 
-    function TerminalView(parent, socketWriter, data) {
-        Eventer(this);
-        var self = this;
-        var temp = document.createElement('div');
-        temp.innerHTML = t_terminal;
-        var nodo = temp.children[0];
-        this.socketWriter = socketWriter;
-        this.parent = parent;
-        this.parent.f().appendChild(nodo);
+            $scope.pid = parseInt(attrs.pid);
 
-        this.els = {};
+            Dragger({
+                area: $element[0],
+                zone: $element[0].querySelector('.head')
+            });
+            $scope.$root.$on('termView:data' + $scope.pid, function (event, data) {
+                t.write(data.data);
+                if (data.process) {
 
-        this.els.main = boq.qs(nodo);
-        this.els.head = this.els.main.qs('.head');
-        this.els.title = this.els.main.qs('.title');
-        this.els.minimize = this.els.main.qs('.minBtn').on('click', function (data) {
-            self.minimize();
-        });
-        this.els.console = this.els.main.qs('.console');
-        Dragger({
-            area: this.els.main,
-            zone: this.els.head
-        });
 
+                    $scope.title = data.process;
+
+                    if ($scope.$$phase != '$digest') {
+                        $scope.$apply();
+                    }
+                }
+            });
+            $scope.$root.$on('termView:close' + $scope.pid, $scope.close);
+            $scope.$root.$emit("console:ready", {pid: $scope.pid});
+
+        };
         var t = new Terminal({
             cols: 80,
             rows: 20,
             screenKeys: true
         });
-        this.pid = data.pid;
-        this.term = t;
 
         t.on('data', function (d) {
-            self.socketWriter('binding', {id: 'term:write', data: d, pid: self.pid});
+            SocketController.sendToSocket('binding', {id: 'term:write', data: d, pid: $scope.pid});
+
         });
-        t.open(this.els.console.f());
+        t.open($element[0].querySelector('.console'));
+
+
+        $scope.minimize = function () {
+            $scope.minimized = !$scope.minimized;
+        };
+        $scope.close = function (_, data) {
+            $scope.$apply(function () {
+                $scope.closing = true;
+            });
+
+            setTimeout(function () {
+                if ($scope.$root)
+                    $scope.$root.$emit('console:close', {pid: $scope.pid});
+
+
+            }, 410);
+        };
+
+        $scope.$on('$destroy', function (event, data) {
+            $scope.$root.$$listeners['termView:close'] = [];
+            $scope.$root.$$listeners['termView:data' + $scope.pid] = [];
+        });
+    };
+
+    function TerminalView(parent, socketWriter, data) {
+
         this.on('close', this.close);
         this.on('data', this.data);
     }
@@ -61,16 +88,13 @@ define('engine/TerminalView', ['boq', 'engine/Eventer', 'text!/html/t_terminal.h
         }
     };
 
-    TerminalView.prototype.minimize=function() {
-        if (this.els.console.f().classList.contains('close')) {
-            this.els.console.f().classList.remove('close');
-            this.els.console.f().classList.add('open');
-
-        } else {
-            this.els.console.f().classList.add('close');
-            this.els.console.f().classList.remove('open');
+    return {
+        restrict: 'E',
+        controller: ctr,
+        templateUrl: "/html/t_terminal.html",
+        link: function (scope, $element, attrs) {
+            scope.shown(attrs);
         }
     };
 
-    return TerminalView;
-});
+}]);

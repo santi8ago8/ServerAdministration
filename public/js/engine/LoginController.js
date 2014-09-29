@@ -63,6 +63,12 @@ sA.controller('LoginController', ["$scope", "SocketController", function ($scope
 
     $scope.$root.$on('log:close', $scope.close);
     $scope.$root.$on('log:incData', $scope.incData);
+    $scope.$on('$destroy', function (event, data) {
+        $scope.$root.$$listeners['log:close'] = [];
+        $scope.$root.$$listeners['log:incData'] = [];
+        $scope.$root.$$listeners['login:userText'] = [];
+        $scope.$root.$$listeners['login:pass'] = [];
+    });
 
 }]);
 sA.directive('login', function () {

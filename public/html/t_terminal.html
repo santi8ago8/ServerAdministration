@@ -1,8 +1,6 @@
-<article>
-    <div class="head">
-        <div class="bold minBtn">_</div>
-        <div class="title"></div>
-        <div style="clear: both"></div>
-    </div>
-    <div class="console open"></div>
-</article>
+<div class="head" ng-class="{close:closing}">
+    <div class="bold minBtn" ng-click="minimize()">_</div>
+    <div class="title">{{title}}</div>
+    <div style="clear: both"></div>
+</div>
+<div class="console open" ng-class="{close:minimized,open:!minimized,closing:closing}"></div>
