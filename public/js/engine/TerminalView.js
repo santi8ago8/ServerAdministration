@@ -44,6 +44,11 @@ sA.directive('terminal', ["SocketController", function (SocketController) {
         $scope.minimize = function () {
             $scope.minimized = !$scope.minimized;
         };
+
+        $scope.closeUI = function () {
+            SocketController.sendToSocket('binding', {id: 'term:close', pid: $scope.pid});
+        };
+
         $scope.close = function (_, data) {
             $scope.$apply(function () {
                 $scope.closing = true;

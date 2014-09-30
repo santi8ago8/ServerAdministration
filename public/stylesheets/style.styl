@@ -192,15 +192,15 @@ anchoHead = 40px;
 
 @keyframes consoleOpen
     0%
-        max-height 0px
-    //html5('transform', rotateX(-90deg))
+        opacity 0;
+        html5('transform', rotateX(-90deg))
     100%
-        max-height 300px
-
-// html5('transform', rotateX(0deg))
+        opacity 1;
+        html5('transform', rotateX(0deg))
 
 terminal
-    position absolute
+    html5('perspective', 800px)
+    position absolute;
     top 50px
     left 50px;
     font-family monospace;
@@ -209,9 +209,10 @@ terminal
         html5('transform-origin', 0% 50%)
         html5('animation-name', titleOpen)
         html5('animation-duration', animationsTime)
+        width 630px;
         html5('animation-iteration-count', 1)
         html5('animation-timing-function', ease)
-        html5('transition', unquote('height '+animationsTime+', opacity '+animationsTime));
+        html5('transition', unquote('all '+animationsTime));
         //html5('transition', opacity animationsTime)
         //html5In('transition', transform animationsTime)
         opacity 1;
@@ -230,18 +231,24 @@ terminal
         width 630px;
         height 300px;
         html5('transform-origin', 0% top)
-        html5('transition', height animationsTime)
+        html5('transition', all animationsTime)
+        html5('transform-style', preserve-3d)
     .console.open
         html5('animation-name', consoleOpen)
         html5('animation-duration', animationsTime)
         html5('animation-iteration-count', 1)
         html5('animation-timing-function', ease)
     div.head.close
-        //html5('transform-style', preserve-3d)
+        //
         //html5In('transition', transform animationsTime)
+
         opacity 0;
+    div.head.minimized
+        width 150px;
     div.console.close,div.console.closing
-        height 0px
+        opacity 0;
+        html5('transform', rotateX(-90deg))
+        //height 0px
 
 @media all and (max-width: 500px) and (min-width: 0px)
     .mainLogin

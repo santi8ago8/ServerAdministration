@@ -24,11 +24,12 @@ sA.service('SocketController', [function () {
 
 
         localStorage.setItem('token', '');
-        if (terminalController)
-            terminalController.emit('close');
-        else {
-            init();
-        }
+        $scope.$root.$emit('tct:close');
+        /*if (terminalController)
+         terminalController.emit('close');
+         else {
+         init();
+         }*/
     });
 
     var init = function () {
@@ -124,12 +125,9 @@ sA.service('SocketController', [function () {
     };
 
     var openLoger = function () {
-        if (loginController == undefined) {
-
-            $scope.$apply(function () {
-                $scope.showLogin = true;
-            });
-        }
+        $scope.$apply(function () {
+            $scope.showLogin = true;
+        });
     };
     var initListeners = function () {
         $scope.$root.$on('log:endUI', loginEnded);

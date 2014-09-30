@@ -57,6 +57,12 @@ var terminal = function () {
     this.write = function (data) {
         self.term.write(data);
     };
+    this.close=function() {
+      //end,kill,destroy, diference?????
+        self.term.end();
+        //self.term.kill();
+        //self.term.destroy();
+    };
     self.term.on('data', function (data) {
 
         if (data != null) {
@@ -321,6 +327,14 @@ var bindings = [
         consolas.push(t);
         var room = io.to('global');
         room.emit('term:open', {pid: t.pid});
+    }},
+    {id: 'term:close', mode: 'global', toMe: true, cb: function (_, data) {
+        consolas.forEach(function (c) {
+            if (data.pid === c.pid) {
+                c.close();
+
+            }
+        });
     }},
     {id: 'term:write', mode: 'global', toMe: true, cb: function (_, data) {
         consolas.forEach(function (c) {

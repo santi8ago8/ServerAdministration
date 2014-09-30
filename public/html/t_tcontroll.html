@@ -1,5 +1,5 @@
 <div class="termControll">
-    <header class="open">
+    <header class="open" ng-class="{close:closing}">
         <span class="userName">{{name}}</span>
         <button class="bold newTerm" ng-click="open()" title="New Terminal">&gt;_</button><button class="bold userConfig" title="Logout" ng-click="logout()">˅</button>
     </header>

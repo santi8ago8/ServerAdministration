@@ -2,32 +2,15 @@ sA.controller('TerminalController',
     ['$scope', 'SocketController', function ($scope, SocketController) {
 
         $scope.terminals = [];
+        $scope.closing = false;
         $scope.name;
-        /*
-         var engine = require('engine');
-
-         function TerminalController(parent, socketWriter) {
-         this.parent = boq.u.qs(parent);
-         this.socketWriter = socketWriter;
-         this.terminals = boq.Array();
-         Eventer(this);
-
-
-
-         }*/
 
         $scope.show = function (data) {
-
-
             $scope.$root.$emit('tct:loginSendMeData', function (data) {
                 $scope.name = data.name;
             });
-            //$scope.name = data.name;
 
-            // para enviar ready to receive
             $scope.$root.$emit('tct:endedInit');
-
-
         };
 
         $scope.open = function () {
@@ -42,7 +25,6 @@ sA.controller('TerminalController',
         };
         $scope.bufferConsole = [];
         $scope.readyTerminal = function (_, data) {
-            console.log('ready');
             angular.forEach($scope.terminals, function (t) {
                 if (t.pid == data.pid) {
                     t.ready = true;
@@ -60,29 +42,21 @@ sA.controller('TerminalController',
             }
         };
         $scope.data = function (_, data, buffer) {
-
-
             angular.forEach($scope.terminals, function (t) {
-                if (t.ready && t.pid == data.pid) {
-                    $scope.$root.$emit('termView:data' + data.pid, data);
-                } else {
-                    if (!buffer)
-                        $scope.bufferConsole.push(data);
+                if (t.pid == data.pid) {
+                    if (t.ready)
+                        $scope.$root.$emit('termView:data' + data.pid, data);
+                    else {
+                        if (buffer !== true) {
+                            $scope.bufferConsole.push(data);
+                        }
+                    }
                 }
             });
         };
         $scope.closeTerminal = function (_, data) {
             $scope.$root.$emit('termView:close' + data.pid, data);
-            /*
-             for (var i = 0; i < this.terminals.length; i++) {
-             var t = this.terminals[i];
 
-             if (t.pid == data.pid) {
-             t.emit('close', data);
-             this.terminals.removeAt(i);
-             i--;
-             }
-             }*/
         };
         $scope.closeTerminalUI = function (_, data) {
 
@@ -97,21 +71,29 @@ sA.controller('TerminalController',
         };
 
         $scope.close = function () {
-            this.terminals.each(function (t) {
-
-                $scope.$root.$emit('termView:close' + data.pid, data);
+            angular.forEach($scope.terminals, function (t) {
+                $scope.$root.$emit('termView:close' + t.pid);
             });
 
             console.log('closing');
-            this.els.header.f().classList.add('close');
-
-
-            //wait animation.
-            var tm = boq.timeout(420, this);
-            tm.then(function () {
-                //finally end.
-                this.emit('endUI');
+            $scope.$apply(function () {
+                $scope.closing = true;
             });
+
+            setTimeout(function () {
+                $scope.$root.$emit('tct:endUI');
+            }, 420);
+
+
+            /*this.els.header.f().classList.add('close');
+
+
+             //wait animation.
+             var tm = boq.timeout(420, this);
+             tm.then(function () {
+             //finally end.
+             this.emit('endUI');
+             });*/
         };
 
         $scope.logout = function () {
@@ -126,11 +108,13 @@ sA.controller('TerminalController',
          this.on('term:data', this.data);
          */
 
+
         $scope.$root.$on('term:open', $scope.openTerminal);
         $scope.$root.$on('console:ready', $scope.readyTerminal);
         $scope.$root.$on('console:close', $scope.closeTerminalUI);
         $scope.$root.$on('term:close', $scope.closeTerminal);
         $scope.$root.$on('term:data', $scope.data);
+        $scope.$root.$on('tct:close', $scope.close);
         console.log('uno iniciado.' + (ii++));
         //unbind
         $scope.$on('$destroy', function (event, destroy) {
@@ -139,7 +123,7 @@ sA.controller('TerminalController',
             $scope.$root.$$listeners['console:close'] = [];
             $scope.$root.$$listeners['term:close'] = [];
             $scope.$root.$$listeners['term:data'] = [];
-            console.log('destroy');
+            $scope.$root.$$listeners['tct:close'] = [];
         });
 
     }]);

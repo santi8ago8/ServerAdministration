@@ -267,6 +267,11 @@ button:focus {
   background-color: #5c97bf;
 }
 terminal {
+  -webkit-perspective: 800px;
+  -moz-perspective: 800px;
+  -ms-perspective: 800px;
+  -o-perspective: 800px;
+  perspective: 800px;
   position: absolute;
   top: 50px;
   left: 50px;
@@ -289,6 +294,7 @@ terminal .head {
   -ms-animation-duration: 0.4s;
   -o-animation-duration: 0.4s;
   animation-duration: 0.4s;
+  width: 630px;
   -webkit-animation-iteration-count: 1;
   -moz-animation-iteration-count: 1;
   -ms-animation-iteration-count: 1;
@@ -299,11 +305,11 @@ terminal .head {
   -ms-animation-timing-function: ease;
   -o-animation-timing-function: ease;
   animation-timing-function: ease;
-  -webkit-transition: height 0.4s, opacity 0.4s;
-  -moz-transition: height 0.4s, opacity 0.4s;
-  -ms-transition: height 0.4s, opacity 0.4s;
-  -o-transition: height 0.4s, opacity 0.4s;
-  transition: height 0.4s, opacity 0.4s;
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  transition: all 0.4s;
   opacity: 1;
   color: #f5f5f5;
   background-color: #22313f;
@@ -326,11 +332,16 @@ terminal .console {
   -ms-transform-origin: 0% top;
   -o-transform-origin: 0% top;
   transform-origin: 0% top;
-  -webkit-transition: height 0.4s;
-  -moz-transition: height 0.4s;
-  -ms-transition: height 0.4s;
-  -o-transition: height 0.4s;
-  transition: height 0.4s;
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  transition: all 0.4s;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
 }
 terminal .console.open {
   -webkit-animation-name: consoleOpen;
@@ -357,9 +368,17 @@ terminal .console.open {
 terminal div.head.close {
   opacity: 0;
 }
+terminal div.head.minimized {
+  width: 150px;
+}
 terminal div.console.close,
 terminal div.console.closing {
-  height: 0px;
+  opacity: 0;
+  -webkit-transform: rotateX(-90deg);
+  -moz-transform: rotateX(-90deg);
+  -ms-transform: rotateX(-90deg);
+  -o-transform: rotateX(-90deg);
+  transform: rotateX(-90deg);
 }
 @media all and (max-width: 500px) and (min-width: 0px) {
   .mainLogin .login {
@@ -760,33 +779,73 @@ terminal div.console.closing {
 }
 @-moz-keyframes consoleOpen {
   0% {
-    max-height: 0px;
+    opacity: 0;
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    -ms-transform: rotateX(-90deg);
+    -o-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
   }
   100% {
-    max-height: 300px;
+    opacity: 1;
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
   }
 }
 @-webkit-keyframes consoleOpen {
   0% {
-    max-height: 0px;
+    opacity: 0;
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    -ms-transform: rotateX(-90deg);
+    -o-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
   }
   100% {
-    max-height: 300px;
+    opacity: 1;
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
   }
 }
 @-o-keyframes consoleOpen {
   0% {
-    max-height: 0px;
+    opacity: 0;
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    -ms-transform: rotateX(-90deg);
+    -o-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
   }
   100% {
-    max-height: 300px;
+    opacity: 1;
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
   }
 }
 @keyframes consoleOpen {
   0% {
-    max-height: 0px;
+    opacity: 0;
+    -webkit-transform: rotateX(-90deg);
+    -moz-transform: rotateX(-90deg);
+    -ms-transform: rotateX(-90deg);
+    -o-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
   }
   100% {
-    max-height: 300px;
+    opacity: 1;
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
   }
 }
