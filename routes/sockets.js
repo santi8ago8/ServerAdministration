@@ -42,8 +42,6 @@ var terminal = function () {
     self.cols = 80;
     self.queue = new ds.Queue();
 
-    self.lastBuffer = new Buffer(self.cols);
-    self.lastBufferIndex = 0;
     self.queue.enqueue(self.lastBuffer);
 
     self.term = pty.fork('bash', [], {
@@ -57,8 +55,8 @@ var terminal = function () {
     this.write = function (data) {
         self.term.write(data);
     };
-    this.close=function() {
-      //end,kill,destroy, diference?????
+    this.close = function () {
+        //end,kill,destroy, diference?????
         self.term.end();
         //self.term.kill();
         //self.term.destroy();
@@ -126,7 +124,8 @@ var initSockets = function () {
 
             consolas.forEach(function (c) {
                 socket.emit('term:open', {pid: c.pid});
-                socket.emit('term:data', {data: c.queue._content.join(''), pid: c.pid, process: c.term.process});
+                var data = c.queue._content.join('');
+                socket.emit('term:data', {data: data, pid: c.pid, process: c.term.process});
             })
         };
 

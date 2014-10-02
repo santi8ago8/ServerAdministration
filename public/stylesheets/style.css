@@ -368,7 +368,7 @@ terminal .console.open {
 terminal div.head.close {
   opacity: 0;
 }
-terminal div.head.minimized {
+terminal div.head.minimizing {
   width: 150px;
 }
 terminal div.console.close,

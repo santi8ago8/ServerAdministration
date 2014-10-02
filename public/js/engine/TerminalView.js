@@ -2,6 +2,8 @@ sA.directive('terminal', ["SocketController", function (SocketController) {
 
     var ctr = function ($scope, $element) {
         $scope.pid;
+
+        $scope.minimizing = false;
         $scope.minimized = false;
         $scope.closing = false;
         $scope.shown = function (attrs) {
@@ -41,8 +43,16 @@ sA.directive('terminal', ["SocketController", function (SocketController) {
         t.open($element[0].querySelector('.console'));
 
 
+        var timeout;
         $scope.minimize = function () {
-            $scope.minimized = !$scope.minimized;
+            $scope.minimizing = !$scope.minimizing;
+            $scope.minimized = false;
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                $scope.$apply(function () {
+                    $scope.minimized = $scope.minimizing ? true : false;
+                });
+            }, 410);
         };
 
         $scope.closeUI = function () {
@@ -68,33 +78,9 @@ sA.directive('terminal', ["SocketController", function (SocketController) {
         });
     };
 
-    function TerminalView(parent, socketWriter, data) {
-
-        this.on('close', this.close);
-        this.on('data', this.data);
-    }
-
-    TerminalView.prototype.close = function (data) {
-
-        this.els.head.f().classList.add('close');
-        this.els.console.f().classList.add('close');
-        //wait animation.
-        var tm = boq.timeout(410, this);
-        tm.then(function () {
-            this.els.main.remove();
-        });
-    };
-
-    TerminalView.prototype.data = function (data) {
-        this.term.write(data.data);
-        //console.log(data);
-        if (data.process) {
-            this.els.title.html(data.process);
-        }
-    };
-
     return {
-        restrict: 'E',
+        restrict: 'A',
+        replace: true,
         controller: ctr,
         templateUrl: "/html/t_terminal.html",
         link: function (scope, $element, attrs) {

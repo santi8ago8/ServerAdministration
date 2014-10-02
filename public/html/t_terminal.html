@@ -1,7 +1,9 @@
-<div class="head" ng-class="{close:closing,minimized:minimized}">
-    <div class="bold minBtn" ng-click="minimize()">_</div>
-    <div class="bold minBtn" ng-click="closeUI()">X</div>
-    <div class="title">{{title}}</div>
-    <div style="clear: both"></div>
-</div>
-<div class="console open" ng-class="{close:minimized,open:!minimized,closing:closing}"></div>
+<terminal>
+    <div class="head" ng-class="{close:closing,minimizing:minimizing}">
+        <div class="bold minBtn" ng-click="closeUI()">X</div>
+        <div class="bold minBtn" ng-click="minimize()">{{minimizing ? "+" : "—"}}</div>
+        <div class="title">{{title}}</div>
+        <div style="clear: both"></div>
+    </div>
+    <div class="console open" ng-hide="minimized"  ng-class="{close:minimizing,open:!minimizing,closing:closing}"></div>
+</terminal>
