@@ -36,6 +36,14 @@ html5In(prop, sec)
 
 //globals
 animationsTime = .4s
+
+.anim {
+    -webkit-animation-duration: animationsTime;
+    animation-duration: animationsTime;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
 a
     color: #00B7FF;
 
@@ -170,8 +178,13 @@ anchoHead = 40px;
         position: fixed;
         background-color #5C97BF;
         height anchoHead;
-
+        img
+            html5('border-radius',100px);
+            vertical-align middle;
+            max-height: anchoHead;
+            max-width: anchoHead;
         button
+            float: right
             border 0;
             height anchoHead;
             width anchoHead;
@@ -250,13 +263,38 @@ terminal
         opacity 0;
         html5('transform', rotateX(-90deg))
 
+userconfig
+    position fixed;
+    box-sizing border-box;
+    padding .4em;
+    right 0px;
+    width 280px;
+    top anchoHead;
+    figure
+        padding .2em;
+        margin 0
+        text-align center;
+        border: 0.2em dashed rgba(0, 0, 0, 0); // #0c0;
+        html5('transition', all animationsTime)
+        img
+            max-width 60%;
+            html5('border-radius', 1000px);
+    figure.hover
+        border-color rgba(218, 223, 225, 1);
+
 @media all and (max-width: 500px) and (min-width: 0px)
+    userconfig
+        width 100%;
+
     .mainLogin
         .login
             width 100%;
             padding: 1.4em 0.5em
 
 @media all and (min-width: 500px) and (max-width: 1000px)
+    userconfig
+        width 38%;
+
     .mainLogin
         .login
             width 50%;

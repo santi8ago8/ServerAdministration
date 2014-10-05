@@ -18,6 +18,12 @@
   font-weight: 700;
   src: url("/stylesheets/Montserrat-Bold.woff");
 }
+.anim {
+  -webkit-animation-duration: 0.4s;
+  animation-duration: 0.4s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
 a {
   color: #00b7ff;
 }
@@ -254,7 +260,18 @@ button:focus {
   background-color: #5c97bf;
   height: 40px;
 }
+.termControll header img {
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  -ms-border-radius: 100px;
+  -o-border-radius: 100px;
+  border-radius: 100px;
+  vertical-align: middle;
+  max-height: 40px;
+  max-width: 40px;
+}
 .termControll header button {
+  float: right;
   border: 0;
   height: 40px;
   width: 40px;
@@ -380,13 +397,49 @@ terminal div.console.closing {
   -o-transform: rotateX(-90deg);
   transform: rotateX(-90deg);
 }
+userconfig {
+  position: fixed;
+  box-sizing: border-box;
+  padding: 0.4em;
+  right: 0px;
+  width: 280px;
+  top: 40px;
+}
+userconfig figure {
+  padding: 0.2em;
+  margin: 0;
+  text-align: center;
+  border: 0.2em dashed rgba(0,0,0,0);
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  transition: all 0.4s;
+}
+userconfig figure img {
+  max-width: 60%;
+  -webkit-border-radius: 1000px;
+  -moz-border-radius: 1000px;
+  -ms-border-radius: 1000px;
+  -o-border-radius: 1000px;
+  border-radius: 1000px;
+}
+userconfig figure.hover {
+  border-color: #dadfe1;
+}
 @media all and (max-width: 500px) and (min-width: 0px) {
+  userconfig {
+    width: 100%;
+  }
   .mainLogin .login {
     width: 100%;
     padding: 1.4em 0.5em;
   }
 }
 @media all and (min-width: 500px) and (max-width: 1000px) {
+  userconfig {
+    width: 38%;
+  }
   .mainLogin .login {
     width: 50%;
     margin-top: 2em;

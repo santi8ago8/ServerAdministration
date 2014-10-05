@@ -3,11 +3,13 @@ sA.controller('TerminalController',
 
         $scope.terminals = [];
         $scope.closing = false;
-        $scope.name;
+        $scope.userConfig = false;
+        $scope.user = {};
 
         $scope.show = function (data) {
             $scope.$root.$emit('tct:loginSendMeData', function (data) {
-                $scope.name = data.name;
+                $scope.user = data;
+
             });
 
             $scope.$root.$emit('tct:endedInit');
@@ -80,27 +82,21 @@ sA.controller('TerminalController',
                 $scope.closing = true;
             });
 
+
             setTimeout(function () {
                 $scope.$root.$emit('tct:endUI');
             }, 420);
 
-
-            /*this.els.header.f().classList.add('close');
-
-
-             //wait animation.
-             var tm = boq.timeout(420, this);
-             tm.then(function () {
-             //finally end.
-             this.emit('endUI');
-             });*/
         };
 
         $scope.logout = function () {
             SocketController.sendToSocket('logout', {token: localStorage.getItem('token')})
         };
+        $scope.openCfgUser = function () {
+            $scope.userConfig = !$scope.userConfig;
+        };
 
-        /* TODO:
+        /*
          this.on('close', this.close);
          this.on('term:open', this.openTerminal);
          this.on('term:close', this.closeTerminal);

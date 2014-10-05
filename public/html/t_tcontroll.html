@@ -1,8 +1,15 @@
 <div class="termControll">
     <header class="open" ng-class="{close:closing}">
-        <span class="userName">{{name}}</span>
-        <button class="bold newTerm" ng-click="open()" title="New Terminal">&gt;_</button><button class="bold userConfig" title="Logout" ng-click="logout()">˅</button>
+        <button class="bold newTerm" ng-click="open()" title="New Terminal">&gt;_</button>
+
+
+            <span class="userName">{{user.name}}</span>
+
+            <img ng-src="{{user.profileImg}}" ng-click="openCfgUser()" ng-if="user.profileImg">
+
+
     </header>
+    <userconfig ng-if="userConfig"></userconfig>
     <article terminal ng-repeat="t in terminals" pid="{{t.pid}}" zindex="term"></article>
 
 

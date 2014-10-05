@@ -9,6 +9,7 @@ var uuid = require('uuid-lib');
 var cookie = require('cookie');
 var consolas = [];
 var engine = require('./engine');
+var fs = require('fs');
 var d = engine.errorHandler;
 
 exports.init = function (server) {
@@ -174,7 +175,7 @@ var initSockets = function () {
                 var ip = socket.handshake.address;
                 engine.users.findOne({tokens: {$in: [
                     {token: data.token, ip: ip}
-                ]}}, {name: 1, password: 1}, function (err, user) {
+                ]}}, {name: 1, password: 1, profileImg: 1}, function (err, user) {
                     if (err)
                         console.log(err);
                     else {
@@ -187,7 +188,7 @@ var initSockets = function () {
                                 s.loginCorrect = true;
                                 s.user = user.name;
                             });
-                            socket.emit('login:token', {result: true, name: user.name});
+                            socket.emit('login:token', {result: true, name: user.name, profileImg: user.profileImg});
                         }
                     }
                 })
@@ -199,7 +200,7 @@ var initSockets = function () {
             d.run(function () {
                 engine.users.findOne(
                     {name: data.name, password: data.password},
-                    {name: 1, password: 1},
+                    {name: 1, password: 1, profileImg: 1},
                     function (err, user) {
                         if (err)
                             console.log(err);
@@ -223,7 +224,7 @@ var initSockets = function () {
                                                 s.loginCorrect = true;
                                                 s.user = user.name;
                                             });
-                                            io.to(socket.roomSession).emit('login:user', {result: true, token: token, name: user.name});
+                                            io.to(socket.roomSession).emit('login:user', {result: true, token: token, name: user.name, profileImg: user.profileImg});
                                         }
 
                                     }
@@ -321,6 +322,23 @@ var bindings = [
     {id: 'login:name', mode: 'session', toMe: false},
     {id: 'login:userText', mode: 'session', toMe: false},
     {id: 'login:pass', mode: 'session', toMe: false},
+    {id: 'user:picture', mode: 'account', toMe: true, cb: function (_, data, room) {
+        console.log('recibida image', room);
+
+        var type = data.type.replace('image/', '');
+        //importante poner el base64 para que decodifique bien.
+        fs.writeFile('./public/images/users/' + room + '.' + type, new Buffer(data.data, 'base64'), function (err) {
+            if (err) {
+                console.log('File could not be saved.', err);
+            } else {
+                engine.users.update({name: room},
+                    {$set: {profileImg: '/images/users/' + room + '.' + type}},
+                    function (err, updates) {
+                        console.log(err, updates);
+                    })
+            }
+        });
+    }},
     {id: 'term:open', mode: 'global', toMe: true, cb: function (socket, data, room) {
         var t = new terminal();
         consolas.push(t);

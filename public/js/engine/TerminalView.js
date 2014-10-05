@@ -47,6 +47,7 @@ sA.directive('terminal', ["SocketController", function (SocketController) {
         $scope.minimize = function () {
             $scope.minimizing = !$scope.minimizing;
             $scope.minimized = false;
+
             clearTimeout(timeout);
             timeout = setTimeout(function () {
                 $scope.$apply(function () {
