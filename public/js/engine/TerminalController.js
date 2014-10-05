@@ -92,8 +92,16 @@ sA.controller('TerminalController',
         $scope.logout = function () {
             SocketController.sendToSocket('logout', {token: localStorage.getItem('token')})
         };
+
+        //config
         $scope.openCfgUser = function () {
             $scope.userConfig = !$scope.userConfig;
+        };
+        $scope.imgChange = function (ev, data) {
+            $scope.$apply(function () {
+                $scope.user.profileImg = data.url;
+            })
+            console.log(data.url)
         };
 
         /*
@@ -111,6 +119,7 @@ sA.controller('TerminalController',
         $scope.$root.$on('term:close', $scope.closeTerminal);
         $scope.$root.$on('term:data', $scope.data);
         $scope.$root.$on('tct:close', $scope.close);
+        $scope.$root.$on('user:picture', $scope.imgChange);
         console.log('uno iniciado.' + (ii++));
         //unbind
         $scope.$on('$destroy', function (event, destroy) {
@@ -120,6 +129,7 @@ sA.controller('TerminalController',
             $scope.$root.$$listeners['term:close'] = [];
             $scope.$root.$$listeners['term:data'] = [];
             $scope.$root.$$listeners['tct:close'] = [];
+            $scope.$root.$off('user:picture', $scope.imgchange);
         });
 
     }]);

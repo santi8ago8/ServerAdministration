@@ -3,9 +3,9 @@
         <button class="bold newTerm" ng-click="open()" title="New Terminal">&gt;_</button>
 
 
-            <span class="userName">{{user.name}}</span>
+        <span class="userName">{{user.name}}</span>
 
-            <img ng-src="{{user.profileImg}}" ng-click="openCfgUser()" ng-if="user.profileImg">
+        <img fallback-src="/images/profile.png" ng-src="{{user.profileImg}}" ng-click="openCfgUser()" ng-if="user.profileImg">
 
 
     </header>

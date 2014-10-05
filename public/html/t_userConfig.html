@@ -1,7 +1,9 @@
 <div class="anim flipInY">
     <figure ng-class="{hover:draging,hoverHere:dragInsideImage}">
-        <img src="/images/profile.png">
+        <img fallback-src="/images/profile.png" ng-src="{{user.profileImg}}">
+        <div ng-if="incType">Only .jpg .png .gif files!</div>
     </figure>
-    <div>user</div>
+    <div>{{user.name}}</div>
     <div>password</div>
+    <div ng-click="logout()">Logout</div>
 </div>

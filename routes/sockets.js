@@ -10,6 +10,7 @@ var cookie = require('cookie');
 var consolas = [];
 var engine = require('./engine');
 var fs = require('fs');
+var gm = require('gm').subClass({ imageMagick: true });
 var d = engine.errorHandler;
 
 exports.init = function (server) {
@@ -323,19 +324,39 @@ var bindings = [
     {id: 'login:userText', mode: 'session', toMe: false},
     {id: 'login:pass', mode: 'session', toMe: false},
     {id: 'user:picture', mode: 'account', toMe: true, cb: function (_, data, room) {
-        console.log('recibida image', room);
 
         var type = data.type.replace('image/', '');
         //importante poner el base64 para que decodifique bien.
-        fs.writeFile('./public/images/users/' + room + '.' + type, new Buffer(data.data, 'base64'), function (err) {
+
+        var name = uuid.create().value;
+        var urlSave = './public/images/users/' + name + '.' + type;
+        fs.writeFile(urlSave, new Buffer(data.data, 'base64'), function (err) {
             if (err) {
                 console.log('File could not be saved.', err);
             } else {
-                engine.users.update({name: room},
-                    {$set: {profileImg: '/images/users/' + room + '.' + type}},
-                    function (err, updates) {
-                        console.log(err, updates);
-                    })
+                var ancho = 250;
+                gm(urlSave)
+                    .resize(ancho, ancho+ ">")
+                    .gravity('Center')
+                    .extent(ancho, ancho)
+                    .write(urlSave, function (err) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            var url = '/images/users/' + name + '.' + type;
+                            engine.users.update({name: room},
+                                {$set: {profileImg: url}},
+                                function (err) {
+                                    if (err)
+                                        console.log(err);
+                                    else {
+                                        io.to(room).emit('binding', {id: 'user:picture', url: url });
+                                    }
+                                });
+                        }
+                    });
+
+
             }
         });
     }},

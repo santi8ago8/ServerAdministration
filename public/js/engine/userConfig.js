@@ -10,6 +10,7 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
 
         $scope.draging = false;
         $scope.dragInsideImage = false;
+        $scope.incType = false;
         var figure;
 
         $scope.show = function () {
@@ -36,16 +37,11 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
         };
         $scope.dragHover = function (e) {
             e.preventDefault();
-            if (!$scope.dragInsideImage) {
-                $scope.dragInsideImage = true;
-                $scope.$apply();
-            }
-
         };
         $scope.drop = function (e) {
+            $scope.incType = false;
             var file = e.dataTransfer.files[0];
-            if (file.type == 'image/jpeg') {
-                console.log('get as string');
+            if (file.type == 'image/jpeg' || file.type == 'image/png' || file.type == 'image/gif') {
 
                 var reader = new FileReader();
                 reader.onload = function (ev) {
@@ -54,11 +50,11 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
                         {id: 'user:picture', data: data, type: file.type});
                 };
                 reader.readAsDataURL(file);
-                /*
-                 e.dataTransfer.items[0].getAsString(function (data) {
-                 console.log(data);
-                 })*/
+            } else {
+                $scope.incType = true;
             }
+
+            $scope.$apply();
         };
 
         $scope.$on('destroy', function (event, data) {

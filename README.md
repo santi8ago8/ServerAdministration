@@ -27,10 +27,12 @@ Change the required parameters in the file
     #sourceDir
     SOURCEDIR=/home/santi8ago8/GitHub/ServerAdministration
 then run:
-```
-npm install ServerAdministration
-sudo ServerAdministration start 
-```
+
+    npm install ServerAdministration
+    sudo apt-get install imagemagick
+    
+    sudo ServerAdministration start 
+
     
 Finally, reboot to be sure the ServerAdministration application starts automatically:
 
