@@ -183,7 +183,7 @@ anchoHead = 40px;
             cursor pointer;
             vertical-align middle;
             max-height: anchoHead;
-            //max-width: anchoHead;
+        //max-width: anchoHead;
         button
             float: right
             border 0;
@@ -270,6 +270,11 @@ userconfig
     padding .4em;
     right 0px;
     width 280px;
+    div
+        margin 0.2em;
+    >div
+        html5('transform-style', preserve-3d)
+        html5('transform-origin', 100% 0%)
     top anchoHead;
     figure
         padding .2em;
@@ -279,10 +284,60 @@ userconfig
         html5('transition', all animationsTime)
         img
             max-width 60%;
-            max-height  60%;
+            max-height 60%;
             html5('border-radius', 1em);
     figure.hover
         border-color rgba(218, 223, 225, 1);
+    .close
+        cursor pointer;
+        float: right;
+    .logout
+        text-align right;
+        cursor pointer;
+
+.flipOutY {
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    -webkit-animation-name: flipOutY;
+    animation-name: flipOutY;
+}
+
+.flipInY {
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    -webkit-animation-name: flipInY;
+    animation-name: flipInY;
+}
+
+@keyframes flipOutY {
+    0% {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px);
+        opacity 1;
+    }
+
+    100% {
+        -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+        transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+        opacity: 0;
+    }
+}
+
+@keyframes flipInY {
+
+    0% {
+        -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+        transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px);
+        opacity 1
+    }
+
+}
 
 @media all and (max-width: 500px) and (min-width: 0px)
     userconfig

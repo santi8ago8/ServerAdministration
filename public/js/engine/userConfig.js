@@ -10,6 +10,7 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
 
         $scope.draging = false;
         $scope.dragInsideImage = false;
+        $scope.closed = false;
         $scope.incType = false;
         var figure;
 
@@ -22,8 +23,9 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
             window.addEventListener('dragend', $scope.dragLeave);
             window.addEventListener('drop', $scope.dragLeave);
 
-        };
+            $scope.$root.$on('cfg:close', $scope.closeCfg);
 
+        };
         $scope.dragStart = function (e) {
             e.preventDefault();
             $scope.draging = true;
@@ -56,10 +58,22 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
 
             $scope.$apply();
         };
+        $scope.closeCfg = function () {
+            $scope.closed = true;
+            if ($scope.$$phase != '$apply') {
+                $scope.$apply();
+            }
+            setTimeout(function () {
+                if ($scope.$root)
+                    $scope.$root.$emit('cfgTC:close');
+            }, 400)
+        };
 
-        $scope.$on('destroy', function (event, data) {
-            //TODO: remove listeners.
+        $scope.$on('destroy', function () {
             window.removeEventListener('dragenter', $scope.dragStart);
+            window.removeEventListener('dragend', $scope.dragLeave);
+            window.removeEventListener('drop', $scope.dragLeave);
+            $scope.$root.$off('cfg:close', $scope.closeCfg);
         });
     };
 

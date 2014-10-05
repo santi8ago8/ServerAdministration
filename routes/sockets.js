@@ -336,9 +336,7 @@ var bindings = [
             } else {
                 var ancho = 250;
                 gm(urlSave)
-                    .resize(ancho, ancho+ ">")
-                    .gravity('Center')
-                    .extent(ancho, ancho)
+                    .resize(ancho, ancho + ">").gravity('Center').extent(ancho, ancho)
                     .write(urlSave, function (err) {
                         if (err) {
                             console.log(err);

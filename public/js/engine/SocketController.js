@@ -120,7 +120,7 @@ sA.service('SocketController', [function () {
     };
 
     var tcEndedInit = function () {
-        console.log('tcEndedInit');
+        //console.log('tcEndedInit');
         socket.emit('readyToReceive');
     };
 

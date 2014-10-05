@@ -26,7 +26,7 @@ sA.directive('zindex', function () {
     return {
         restrict: 'A',
         link: function (scope, $element, attrs) {
-            console.log(attrs);
+            //console.log(attrs);
 
             if (typeof zindexdir[attrs.zindex] === 'undefined') {
                 zindexdir[attrs.zindex] = [];
