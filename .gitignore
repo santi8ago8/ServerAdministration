@@ -3,6 +3,7 @@
 /ssl
 /log
 /pid
+/public/users/*
 forever
 forever.log
 forever.pid
