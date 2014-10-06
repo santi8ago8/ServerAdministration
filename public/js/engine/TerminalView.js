@@ -58,6 +58,7 @@ sA.directive('terminal', ["SocketController", function (SocketController) {
             $scope.$apply(function () {
                 $scope.closing = true;
             });
+            $element.removeClass('ng-enter');
 
             if ($scope.$root)
                 $scope.$root.$emit('console:close', {pid: $scope.pid});

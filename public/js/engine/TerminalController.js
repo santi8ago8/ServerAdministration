@@ -21,9 +21,9 @@ sA.controller('TerminalController',
         };
         $scope.openTerminal = function (_, data) {
             $scope.$apply(function () {
+
                 $scope.terminals.push(data);
             });
-
         };
         $scope.bufferConsole = [];
         $scope.readyTerminal = function (_, data) {
@@ -61,15 +61,15 @@ sA.controller('TerminalController',
 
         };
         $scope.closeTerminalUI = function (_, data) {
-
-            for (var i = 0; i < $scope.terminals.length; i++) {
-                var t = $scope.terminals[i];
-                if (data.pid == t.pid) {
-                    $scope.terminals.splice(i, 1);
-                    i--;
+            $scope.$apply(function () {
+                for (var i = 0; i < $scope.terminals.length; i++) {
+                    var t = $scope.terminals[i];
+                    if (data.pid == t.pid) {
+                        $scope.terminals.splice(i, 1);
+                        i--;
+                    }
                 }
-            }
-            $scope.$apply();
+            });
         };
 
         $scope.close = function () {
@@ -80,6 +80,7 @@ sA.controller('TerminalController',
             $scope.closeCfgUser();
 
             $scope.$apply(function () {
+                // $scope.terminals = [];
                 $scope.closing = true;
             });
 

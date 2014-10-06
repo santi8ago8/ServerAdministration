@@ -328,11 +328,15 @@ button:focus
         opacity 1;
         html5('transform', rotateX(0deg))
 
+terminal.ng-enter-stagger
+    @extend .flipInX;
 
 terminal.ng-enter
     @extend .flipInX;
+
 terminal.ng-leave
     @extend .flipOutX;
+
 terminal
     html5('perspective', 800px)
     position absolute;
@@ -386,9 +390,10 @@ terminal
 
     div.head.minimizing
         width 150px;
-    /*div.console.close, div.console.closing
-        opacity 0;
-        html5('transform', rotateX(-90deg))*/
+
+/*div.console.close, div.console.closing
+    opacity 0;
+    html5('transform', rotateX(-90deg))*/
 
 userconfig.ng-enter {
     @extend .flipInY

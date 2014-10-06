@@ -41,6 +41,7 @@ terminal .console.ng-hide-add-active {
   animation-name: flipOutX;
 }
 .flipInX,
+terminal.ng-enter-stagger,
 terminal.ng-enter,
 terminal .console.ng-hide-remove {
   -webkit-backface-visibility: visible !important;
@@ -362,9 +363,6 @@ terminal {
         html5('animation-duration', animationsTime)
         html5('animation-iteration-count', 1)
         html5('animation-timing-function', ease)*/
-/*div.console.close, div.console.closing
-        opacity 0;
-        html5('transform', rotateX(-90deg))*/
 }
 terminal .head.minimized {
   width: 150px;
@@ -435,6 +433,9 @@ terminal div.head.close {
 terminal div.head.minimizing {
   width: 150px;
 }
+/*div.console.close, div.console.closing
+    opacity 0;
+    html5('transform', rotateX(-90deg))*/
 userconfig {
   position: fixed;
   box-sizing: border-box;
