@@ -1,11 +1,21 @@
-<div class="anim" ng-class="{flipOutY:closed,flipInY:!closed}">
-    <div class="close bold" ng-click="closeCfg(true)">X</div>
+<div class="anim">
+    <!--ng-class="{flipOutY:closed,flipInY:!closed}">-->
+    <div class="close bold" ng-click="closeBtn(true)">X</div>
     <figure ng-class="{hover:draging,hoverHere:dragInsideImage}">
         <img fallback-src="/images/profile.png" ng-src="{{user.profileImg}}">
+
         <div ng-if="incType">Only .jpg .png .gif files!</div>
     </figure>
     <div>>{{user.name}}_</div>
-    <div>password</div>
+    <div class="password">
+        <span ng-if="!editPass" ng-click="editPassFn()">Password</span>
+
+        <form ng-submit="savePass()" ng-if="editPass">
+            <input type="password" ng-model="userC.pass">
+
+            <div>{{userC.pass}}</div>
+        </form>
+    </div>
     <div ng-click="logout()" class="logout">Logout</div>
 
 </div>

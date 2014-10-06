@@ -18,6 +18,44 @@
   font-weight: 700;
   src: url("/stylesheets/Montserrat-Bold.woff");
 }
+.flipOutY,
+userconfig.ng-leave {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipOutY;
+  animation-name: flipOutY;
+}
+.flipInY,
+userconfig.ng-enter {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipInY;
+  animation-name: flipInY;
+}
+@media all and (max-width: 500px) and (min-width: 0px) {
+  userconfig {
+    width: 100%;
+  }
+  .mainLogin .login {
+    width: 100%;
+    padding: 1.4em 0.5em;
+  }
+}
+@media all and (min-width: 500px) and (max-width: 1000px) {
+  userconfig {
+    width: 38%;
+  }
+  .mainLogin .login {
+    width: 50%;
+    margin-top: 2em;
+  }
+}
+@media all and (min-width: 1000px) {
+  .mainLogin .login {
+    margin-top: 2em;
+    width: 380px;
+  }
+}
 .anim {
   -webkit-animation-duration: 0.4s;
   animation-duration: 0.4s;
@@ -403,12 +441,6 @@ userconfig {
   padding: 0.4em;
   right: 0px;
   width: 280px;
-  top: 40px;
-}
-userconfig div {
-  margin: 0.2em;
-}
-userconfig >div {
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   -ms-transform-style: preserve-3d;
@@ -419,6 +451,10 @@ userconfig >div {
   -ms-transform-origin: 100% 0%;
   -o-transform-origin: 100% 0%;
   transform-origin: 100% 0%;
+  top: 40px;
+}
+userconfig div {
+  margin: 0.2em;
 }
 userconfig figure {
   padding: 0.2em;
@@ -451,41 +487,8 @@ userconfig .logout {
   text-align: right;
   cursor: pointer;
 }
-.flipOutY {
-  -webkit-backface-visibility: visible !important;
-  backface-visibility: visible !important;
-  -webkit-animation-name: flipOutY;
-  animation-name: flipOutY;
-}
-.flipInY {
-  -webkit-backface-visibility: visible !important;
-  backface-visibility: visible !important;
-  -webkit-animation-name: flipInY;
-  animation-name: flipInY;
-}
-@media all and (max-width: 500px) and (min-width: 0px) {
-  userconfig {
-    width: 100%;
-  }
-  .mainLogin .login {
-    width: 100%;
-    padding: 1.4em 0.5em;
-  }
-}
-@media all and (min-width: 500px) and (max-width: 1000px) {
-  userconfig {
-    width: 38%;
-  }
-  .mainLogin .login {
-    width: 50%;
-    margin-top: 2em;
-  }
-}
-@media all and (min-width: 1000px) {
-  .mainLogin .login {
-    margin-top: 2em;
-    width: 380px;
-  }
+userconfig .password {
+  cursor: pointer;
 }
 /*
 @media screen and (min-device-width: 400px) and (orientation: landscape)
@@ -494,6 +497,102 @@ userconfig .logout {
 @media screen and (min-device-width: 400px) and (orientation: portrait)
     .login
         width 100%*/
+@-moz-keyframes flipOutY {
+  0% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes flipOutY {
+  0% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    opacity: 0;
+  }
+}
+@-o-keyframes flipOutY {
+  0% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    opacity: 0;
+  }
+}
+@keyframes flipOutY {
+  0% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    opacity: 0;
+  }
+}
+@-moz-keyframes flipInY {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes flipInY {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+@-o-keyframes flipInY {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+@keyframes flipInY {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
 @-moz-keyframes logging {
   0% {
     -webkit-transform: rotateX(1deg);
@@ -936,101 +1035,5 @@ userconfig .logout {
     -ms-transform: rotateX(0deg);
     -o-transform: rotateX(0deg);
     transform: rotateX(0deg);
-  }
-}
-@-moz-keyframes flipOutY {
-  0% {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-    opacity: 1;
-  }
-  100% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    opacity: 0;
-  }
-}
-@-webkit-keyframes flipOutY {
-  0% {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-    opacity: 1;
-  }
-  100% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    opacity: 0;
-  }
-}
-@-o-keyframes flipOutY {
-  0% {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-    opacity: 1;
-  }
-  100% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    opacity: 0;
-  }
-}
-@keyframes flipOutY {
-  0% {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-    opacity: 1;
-  }
-  100% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    opacity: 0;
-  }
-}
-@-moz-keyframes flipInY {
-  0% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-    opacity: 1;
-  }
-}
-@-webkit-keyframes flipInY {
-  0% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-    opacity: 1;
-  }
-}
-@-o-keyframes flipInY {
-  0% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-    opacity: 1;
-  }
-}
-@keyframes flipInY {
-  0% {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-    opacity: 1;
   }
 }

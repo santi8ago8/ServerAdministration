@@ -34,6 +34,75 @@ html5In(prop, sec)
     font-weight: 700;
     src url('/stylesheets/Montserrat-Bold.woff')
 
+.flipOutY {
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    -webkit-animation-name: flipOutY;
+    animation-name: flipOutY;
+}
+
+.flipInY {
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    -webkit-animation-name: flipInY;
+    animation-name: flipInY;
+}
+
+@keyframes flipOutY {
+    0% {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px);
+        opacity 1;
+    }
+
+    100% {
+        -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+        transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+        opacity: 0;
+    }
+}
+
+@keyframes flipInY {
+
+    0% {
+        -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+        transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px);
+        opacity 1
+    }
+
+}
+
+@media all and (max-width: 500px) and (min-width: 0px)
+    userconfig
+        width 100%;
+
+    .mainLogin
+        .login
+            width 100%;
+            padding: 1.4em 0.5em
+
+@media all and (min-width: 500px) and (max-width: 1000px)
+    userconfig
+        width 38%;
+
+    .mainLogin
+        .login
+            width 50%;
+            margin-top 2em
+
+@media all and (min-width: 1000px)
+    .mainLogin
+        .login
+            margin-top 2em
+            width 380px;
+
+
 //globals
 animationsTime = .4s
 
@@ -264,17 +333,24 @@ terminal
         opacity 0;
         html5('transform', rotateX(-90deg))
 
+userconfig.ng-enter {
+    @extend .flipInY
+}
+
+userconfig.ng-leave {
+    @extend .flipOutY
+}
+
 userconfig
     position fixed;
     box-sizing border-box;
     padding .4em;
     right 0px;
     width 280px;
+    html5('transform-style', preserve-3d)
+    html5('transform-origin', 100% 0%)
     div
         margin 0.2em;
-    >div
-        html5('transform-style', preserve-3d)
-        html5('transform-origin', 100% 0%)
     top anchoHead;
     figure
         padding .2em;
@@ -294,74 +370,8 @@ userconfig
     .logout
         text-align right;
         cursor pointer;
-
-.flipOutY {
-    -webkit-backface-visibility: visible !important;
-    backface-visibility: visible !important;
-    -webkit-animation-name: flipOutY;
-    animation-name: flipOutY;
-}
-
-.flipInY {
-    -webkit-backface-visibility: visible !important;
-    backface-visibility: visible !important;
-    -webkit-animation-name: flipInY;
-    animation-name: flipInY;
-}
-
-@keyframes flipOutY {
-    0% {
-        -webkit-transform: perspective(400px);
-        transform: perspective(400px);
-        opacity 1;
-    }
-
-    100% {
-        -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-        transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-        opacity: 0;
-    }
-}
-
-@keyframes flipInY {
-
-    0% {
-        -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-        transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
-        opacity: 0;
-    }
-
-    100% {
-        -webkit-transform: perspective(400px);
-        transform: perspective(400px);
-        opacity 1
-    }
-
-}
-
-@media all and (max-width: 500px) and (min-width: 0px)
-    userconfig
-        width 100%;
-
-    .mainLogin
-        .login
-            width 100%;
-            padding: 1.4em 0.5em
-
-@media all and (min-width: 500px) and (max-width: 1000px)
-    userconfig
-        width 38%;
-
-    .mainLogin
-        .login
-            width 50%;
-            margin-top 2em
-
-@media all and (min-width: 1000px)
-    .mainLogin
-        .login
-            margin-top 2em
-            width 380px;
+    .password
+        cursor pointer;
 
 /*
 @media screen and (min-device-width: 400px) and (orientation: landscape)

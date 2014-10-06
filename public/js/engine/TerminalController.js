@@ -77,7 +77,7 @@ sA.controller('TerminalController',
                 $scope.$root.$emit('termView:close' + t.pid);
             });
 
-            $scope.$root.$emit('cfg:close');
+            $scope.closeCfgUser();
 
             $scope.$apply(function () {
                 $scope.closing = true;
@@ -101,7 +101,6 @@ sA.controller('TerminalController',
         $scope.closeCfgUser = function () {
 
             $scope.userConfig = false;
-            $scope.$apply();
         };
         $scope.imgChange = function (ev, data) {
             $scope.$apply(function () {

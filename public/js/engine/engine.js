@@ -1,4 +1,4 @@
-window.sA = angular.module('ServerAdministration', []);
+window.sA = angular.module('ServerAdministration', ['ngAnimate']);
 
 sA.controller("engine", ["$scope", "SocketController", function ($scope, SocketController) {
 

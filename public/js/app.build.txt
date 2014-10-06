@@ -1,0 +1,15 @@
+uglifyjs \
+    angular.js \
+    angular-animate.js \
+    socket.io.js \
+    term.js \
+    engine/engine.js \
+    engine/SocketController.js \
+    engine/Dragger.js \
+    engine/zindex.js \
+    engine/userConfig.js \
+    engine/LoginController.js \
+    engine/TerminalView.js \
+    engine/TerminalController.js \
+    -o allsc.js \
+    -c

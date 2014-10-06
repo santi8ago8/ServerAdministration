@@ -12,6 +12,8 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
         $scope.dragInsideImage = false;
         $scope.closed = false;
         $scope.incType = false;
+        $scope.editPass = false;
+        $scope.userC = {};//pass = "";
         var figure;
 
         $scope.show = function () {
@@ -22,8 +24,6 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
             window.addEventListener('dragenter', $scope.dragStart);
             window.addEventListener('dragend', $scope.dragLeave);
             window.addEventListener('drop', $scope.dragLeave);
-
-            $scope.$root.$on('cfg:close', $scope.closeCfg);
 
         };
         $scope.dragStart = function (e) {
@@ -58,22 +58,24 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
 
             $scope.$apply();
         };
-        $scope.closeCfg = function () {
-            $scope.closed = true;
-            if ($scope.$$phase != '$apply') {
-                $scope.$apply();
-            }
-            setTimeout(function () {
-                if ($scope.$root)
-                    $scope.$root.$emit('cfgTC:close');
-            }, 400)
+        $scope.closeBtn=function() {
+            $scope.$root.$emit('cfgTC:close');
+        };
+        $scope.editPassFn = function () {
+            $scope.editPass = !$scope.editPass;
+        };
+        $scope.savePass = function () {
+            $scope.editPass = !$scope.editPass;
+            SocketController.sendToSocket('binding', {
+                id: 'user:password',
+                password: $scope.userC.pass
+            });
         };
 
         $scope.$on('destroy', function () {
             window.removeEventListener('dragenter', $scope.dragStart);
             window.removeEventListener('dragend', $scope.dragLeave);
             window.removeEventListener('drop', $scope.dragLeave);
-            $scope.$root.$off('cfg:close', $scope.closeCfg);
         });
     };
 

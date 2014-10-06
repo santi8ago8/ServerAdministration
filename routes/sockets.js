@@ -358,6 +358,18 @@ var bindings = [
             }
         });
     }},
+    {id: 'user:password', mode: 'account', toMe: true, cb: function (_, data, room) {
+        d.run(function () {
+            engine.users.update(
+                {name: room},
+                {$set: {password: data.password}},
+                function (err, resp) {
+                    if (err)
+                        console.log(err);
+                });
+
+        });
+    }},
     {id: 'term:open', mode: 'global', toMe: true, cb: function (socket, data, room) {
         var t = new terminal();
         consolas.push(t);
