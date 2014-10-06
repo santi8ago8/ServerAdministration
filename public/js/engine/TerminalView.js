@@ -29,6 +29,7 @@ sA.directive('terminal', ["SocketController", function (SocketController) {
             $scope.$root.$on('termView:close' + $scope.pid, $scope.close);
             $scope.$root.$emit("console:ready", {pid: $scope.pid});
 
+
         };
         var t = new Terminal({
             cols: 80,
@@ -45,15 +46,8 @@ sA.directive('terminal', ["SocketController", function (SocketController) {
 
         var timeout;
         $scope.minimize = function () {
-            $scope.minimizing = !$scope.minimizing;
-            $scope.minimized = false;
+            $scope.minimized = !$scope.minimized;
 
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
-                $scope.$apply(function () {
-                    $scope.minimized = $scope.minimizing ? true : false;
-                });
-            }, 410);
         };
 
         $scope.closeUI = function () {
@@ -65,12 +59,8 @@ sA.directive('terminal', ["SocketController", function (SocketController) {
                 $scope.closing = true;
             });
 
-            setTimeout(function () {
-                if ($scope.$root)
-                    $scope.$root.$emit('console:close', {pid: $scope.pid});
-
-
-            }, 410);
+            if ($scope.$root)
+                $scope.$root.$emit('console:close', {pid: $scope.pid});
         };
 
         $scope.$on('$destroy', function (event, data) {

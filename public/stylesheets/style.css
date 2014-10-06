@@ -32,9 +32,28 @@ userconfig.ng-enter {
   -webkit-animation-name: flipInY;
   animation-name: flipInY;
 }
+.flipOutX,
+terminal.ng-leave,
+terminal .console.ng-hide-add-active {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipOutX;
+  animation-name: flipOutX;
+}
+.flipInX,
+terminal.ng-enter,
+terminal .console.ng-hide-remove {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  -webkit-animation-name: flipInX;
+  animation-name: flipInX;
+}
 @media all and (max-width: 500px) and (min-width: 0px) {
   userconfig {
-    width: 100%;
+    width: 100% !important;
+    position: relative !important;
+    display: block;
+    right: inherit !important;
   }
   .mainLogin .login {
     width: 100%;
@@ -295,6 +314,7 @@ button:focus {
   top: 0px;
   right: 0px;
   position: fixed;
+  z-index: 99999999;
   background-color: #5c97bf;
   height: 40px;
 }
@@ -332,6 +352,22 @@ terminal {
   left: 50px;
   font-family: monospace;
   font-size: 13px;
+  -webkit-transform-origin: 0% top;
+  -moz-transform-origin: 0% top;
+  -ms-transform-origin: 0% top;
+  -o-transform-origin: 0% top;
+  transform-origin: 0% top;
+/*.console.open
+        html5('animation-name', consoleOpen)
+        html5('animation-duration', animationsTime)
+        html5('animation-iteration-count', 1)
+        html5('animation-timing-function', ease)*/
+/*div.console.close, div.console.closing
+        opacity 0;
+        html5('transform', rotateX(-90deg))*/
+}
+terminal .head.minimized {
+  width: 150px;
 }
 terminal .head {
   -webkit-transform-origin: 0% 50%;
@@ -387,53 +423,17 @@ terminal .console {
   -ms-transform-origin: 0% top;
   -o-transform-origin: 0% top;
   transform-origin: 0% top;
-  -webkit-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  -ms-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  transition: all 0.4s;
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   -ms-transform-style: preserve-3d;
   -o-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
-terminal .console.open {
-  -webkit-animation-name: consoleOpen;
-  -moz-animation-name: consoleOpen;
-  -ms-animation-name: consoleOpen;
-  -o-animation-name: consoleOpen;
-  animation-name: consoleOpen;
-  -webkit-animation-duration: 0.4s;
-  -moz-animation-duration: 0.4s;
-  -ms-animation-duration: 0.4s;
-  -o-animation-duration: 0.4s;
-  animation-duration: 0.4s;
-  -webkit-animation-iteration-count: 1;
-  -moz-animation-iteration-count: 1;
-  -ms-animation-iteration-count: 1;
-  -o-animation-iteration-count: 1;
-  animation-iteration-count: 1;
-  -webkit-animation-timing-function: ease;
-  -moz-animation-timing-function: ease;
-  -ms-animation-timing-function: ease;
-  -o-animation-timing-function: ease;
-  animation-timing-function: ease;
-}
 terminal div.head.close {
   opacity: 0;
 }
 terminal div.head.minimizing {
   width: 150px;
-}
-terminal div.console.close,
-terminal div.console.closing {
-  opacity: 0;
-  -webkit-transform: rotateX(-90deg);
-  -moz-transform: rotateX(-90deg);
-  -ms-transform: rotateX(-90deg);
-  -o-transform: rotateX(-90deg);
-  transform: rotateX(-90deg);
 }
 userconfig {
   position: fixed;
@@ -585,6 +585,102 @@ userconfig .password {
   0% {
     -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
     transform: perspective(400px) rotate3d(0, 1, 0, -90deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+@-moz-keyframes flipOutX {
+  0% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes flipOutX {
+  0% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    opacity: 0;
+  }
+}
+@-o-keyframes flipOutX {
+  0% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    opacity: 0;
+  }
+}
+@keyframes flipOutX {
+  0% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    opacity: 0;
+  }
+}
+@-moz-keyframes flipInX {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes flipInX {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+@-o-keyframes flipInX {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: perspective(400px);
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+@keyframes flipInX {
+  0% {
+    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
     opacity: 0;
   }
   100% {

@@ -78,9 +78,58 @@ html5In(prop, sec)
 
 }
 
+.flipOutX {
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    -webkit-animation-name: flipOutX;
+    animation-name: flipOutX;
+}
+
+.flipInX {
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    -webkit-animation-name: flipInX;
+    animation-name: flipInX;
+}
+
+@keyframes flipOutX {
+    0% {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px);
+        opacity 1;
+    }
+
+    100% {
+        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+        transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+        opacity: 0;
+    }
+}
+
+@keyframes flipInX {
+
+    0% {
+        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+        transform: perspective(400px) rotate3d(1, 0, 0, -90deg);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px);
+        opacity 1
+    }
+
+}
+
+anchoHead = 40px;
+
 @media all and (max-width: 500px) and (min-width: 0px)
     userconfig
-        width 100%;
+        width 100% !important
+        position relative !important
+        display block;
+        right inherit !important;
 
     .mainLogin
         .login
@@ -101,7 +150,6 @@ html5In(prop, sec)
         .login
             margin-top 2em
             width 380px;
-
 
 //globals
 animationsTime = .4s
@@ -217,8 +265,6 @@ button:focus
             html5('animation-iteration-count', infinite)
             html5('animation-timing-function', linear)
 
-anchoHead = 40px;
-
 @keyframes headOpen
     0%
         html5('transform', rotateX(-90deg))
@@ -245,6 +291,7 @@ anchoHead = 40px;
         top: 0px;
         right: 0px;
         position: fixed;
+        z-index 99999999;
         background-color #5C97BF;
         height anchoHead;
         img
@@ -281,6 +328,11 @@ anchoHead = 40px;
         opacity 1;
         html5('transform', rotateX(0deg))
 
+
+terminal.ng-enter
+    @extend .flipInX;
+terminal.ng-leave
+    @extend .flipOutX;
 terminal
     html5('perspective', 800px)
     position absolute;
@@ -288,6 +340,9 @@ terminal
     left 50px;
     font-family monospace;
     font-size 13px
+    html5('transform-origin', 0% top)
+    .head.minimized
+        width 150px;
     .head
         html5('transform-origin', 0% 50%)
         html5('animation-name', titleOpen)
@@ -308,19 +363,21 @@ terminal
             float left;
             cursor pointer
             padding 2px 5px
-
+    .console.ng-hide-add-active
+        @extend .flipOutX;
+    .console.ng-hide-remove
+        @extend .flipInX;
     .console
         overflow hidden
         width 630px;
         height 300px;
         html5('transform-origin', 0% top)
-        html5('transition', all animationsTime)
         html5('transform-style', preserve-3d)
-    .console.open
+    /*.console.open
         html5('animation-name', consoleOpen)
         html5('animation-duration', animationsTime)
         html5('animation-iteration-count', 1)
-        html5('animation-timing-function', ease)
+        html5('animation-timing-function', ease)*/
     div.head.close
         //
         //html5In('transition', transform animationsTime)
@@ -329,9 +386,9 @@ terminal
 
     div.head.minimizing
         width 150px;
-    div.console.close, div.console.closing
+    /*div.console.close, div.console.closing
         opacity 0;
-        html5('transform', rotateX(-90deg))
+        html5('transform', rotateX(-90deg))*/
 
 userconfig.ng-enter {
     @extend .flipInY
