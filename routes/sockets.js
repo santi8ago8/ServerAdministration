@@ -329,7 +329,7 @@ var bindings = [
         //importante poner el base64 para que decodifique bien.
 
         var name = uuid.create().value;
-        var urlSave = __dirname+'/public/images/users/' + name + '.' + type;
+        var urlSave = __dirname+'../public/images/users/' + name + '.' + type;
         fs.writeFile(urlSave, new Buffer(data.data, 'base64'), function (err) {
             if (err) {
                 console.log('File could not be saved.', err);
