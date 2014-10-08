@@ -2,7 +2,7 @@
     <!--ng-class="{flipOutY:closed,flipInY:!closed}">-->
     <div class="close bold" ng-click="closeBtn(true)">X</div>
     <figure ng-class="{hover:draging,hoverHere:dragInsideImage}">
-        <img fallback-src="/images/profile.png" ng-src="{{user.profileImg}}">
+        <img fallback-src="/images/profile.png" ng-src="{{ user.profileImg || '/images/profile.png' }}">
 
         <div ng-if="incType">Only .jpg .png .gif files!</div>
     </figure>

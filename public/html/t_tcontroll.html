@@ -5,7 +5,7 @@
 
         <span class="userName">{{user.name}}</span>
 
-        <img fallback-src="/images/profile.png" ng-src="{{user.profileImg}}" ng-click="openCfgUser()" ng-if="user.profileImg">
+        <img fallback-src="/images/profile.png" ng-src="{{ user.profileImg || '/images/profile.png' }}" ng-click="openCfgUser()">
 
 
     </header>
