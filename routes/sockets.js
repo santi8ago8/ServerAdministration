@@ -393,5 +393,15 @@ var bindings = [
 
             }
         });
+    }},
+    {id: 'comm:get', mode: 'session', toMe: false, cb: function (socket) {
+        engine.commands.find({}).toArray(function (err, res) {
+            console.log(err, res);
+            if (err)
+                console.log(err);
+            else {
+                socket.emit('binding', {id: 'comm:get', commands: res});
+            }
+        });
     }}
 ];

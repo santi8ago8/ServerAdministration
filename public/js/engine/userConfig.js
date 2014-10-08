@@ -24,6 +24,7 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
             window.addEventListener('dragenter', $scope.dragStart);
             window.addEventListener('dragend', $scope.dragLeave);
             window.addEventListener('drop', $scope.dragLeave);
+            $scope.$root.$on('comm:get', $scope.commands);
 
         };
         $scope.dragStart = function (e) {
@@ -58,7 +59,7 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
 
             $scope.$apply();
         };
-        $scope.closeBtn=function() {
+        $scope.closeBtn = function () {
             $scope.$root.$emit('cfgTC:close');
         };
         $scope.editPassFn = function () {
@@ -72,10 +73,27 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
             });
         };
 
+        $scope.editCmd = false;
+        $scope.commands = [];
+        $scope.editCommands = function () {
+
+            //request to socket.
+            SocketController.binding('comm:get');
+
+        };
+        $scope.commands = function (_, data) {
+            $scope.$apply(function() {
+                $scope.editCmd = true;
+                $scope.commands = data.commands;
+            });
+        };
+
+
         $scope.$on('destroy', function () {
             window.removeEventListener('dragenter', $scope.dragStart);
             window.removeEventListener('dragend', $scope.dragLeave);
             window.removeEventListener('drop', $scope.dragLeave);
+            $scope.$root.$off('comm:get', $scope.commands);
         });
     };
 

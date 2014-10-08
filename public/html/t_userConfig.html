@@ -16,6 +16,10 @@
             <div>{{userC.pass}}</div>
         </form>
     </div>
+    <div ng-click="editCommands()" ng-hide="editCmd" class="editCmd">Edit Commands</div>
+    <div ng-show="editCmd">
+        <div ng-repeat="c in commands"><input type="text" value="{{c.command}}"></div>
+    </div>
     <div ng-click="logout()" class="logout">Logout</div>
 
 </div>

@@ -480,15 +480,13 @@ userconfig figure img {
 userconfig figure.hover {
   border-color: #dadfe1;
 }
-userconfig .close {
+userconfig .close,
+userconfig .logout {
   cursor: pointer;
   float: right;
 }
-userconfig .logout {
-  text-align: right;
-  cursor: pointer;
-}
-userconfig .password {
+userconfig .password,
+userconfig .editCmd {
   cursor: pointer;
 }
 /*
