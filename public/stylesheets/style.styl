@@ -431,6 +431,26 @@ userconfig
         float: right;
     .password,.editCmd
         cursor pointer;
+    .editCmdPane
+        max-height 350px;
+        overflow-y auto;
+        overflow-x hidden;
+
+        input
+            margin 0;
+            border 0;
+            border-bottom 1px solid #dadfe1;
+            box-sizing border-box;
+
+    .editCmdPane::-webkit-scrollbar
+        width: 12px;
+    .deditCmdPane::-webkit-scrollbar-track
+        background-color: #eaeaea;
+        border-left: 1px solid #ccc;
+    .editCmdPane::-webkit-scrollbar-thumb
+        background-color: #ccc;
+    .editCmdPane::-webkit-scrollbar-thumb:hover
+        background-color: #aaa;
 
 /*
 @media screen and (min-device-width: 400px) and (orientation: landscape)

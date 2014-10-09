@@ -489,6 +489,30 @@ userconfig .password,
 userconfig .editCmd {
   cursor: pointer;
 }
+userconfig .editCmdPane {
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+userconfig .editCmdPane input {
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #dadfe1;
+  box-sizing: border-box;
+}
+userconfig .editCmdPane::-webkit-scrollbar {
+  width: 12px;
+}
+userconfig .deditCmdPane::-webkit-scrollbar-track {
+  background-color: #eaeaea;
+  border-left: 1px solid #ccc;
+}
+userconfig .editCmdPane::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+}
+userconfig .editCmdPane::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
 /*
 @media screen and (min-device-width: 400px) and (orientation: landscape)
     .login

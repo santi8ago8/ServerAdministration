@@ -17,8 +17,12 @@
         </form>
     </div>
     <div ng-click="editCommands()" ng-hide="editCmd" class="editCmd">Edit Commands</div>
-    <div ng-show="editCmd">
-        <div ng-repeat="c in commands"><input type="text" value="{{c.command}}"></div>
+    <div ng-show="editCmd" class="editCmdPane">
+        <form ng-submit="saveCmmds()">
+            <div ng-repeat="c in commands"><input type="text" ng-model="c.command" placeholder="New..."></div>
+            <button ng-click="add()" type="button">Add</button>
+            <button type="submit">Save</button>
+        </form>
     </div>
     <div ng-click="logout()" class="logout">Logout</div>
 

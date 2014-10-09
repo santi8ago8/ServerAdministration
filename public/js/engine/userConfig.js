@@ -82,10 +82,25 @@ sA.directive('userconfig', ['SocketController', function (SocketController) {
 
         };
         $scope.commands = function (_, data) {
-            $scope.$apply(function() {
+            $scope.$apply(function () {
                 $scope.editCmd = true;
                 $scope.commands = data.commands;
+                $scope.commands.push({command: ''});
             });
+        };
+        $scope.add = function () {
+            $scope.commands.push({command: ''});
+        };
+        $scope.saveCmmds = function () {
+            $scope.editCmd = false;
+            var res = [];
+            angular.forEach($scope.commands, function (it) {
+                if (it.command != '' || it["_id"]) {
+                    delete it["$$hashKey"];
+                    res.push(it);
+                }
+            });
+            SocketController.binding('comm:save', {commands: res});
         };
 
 

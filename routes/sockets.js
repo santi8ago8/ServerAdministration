@@ -9,6 +9,7 @@ var uuid = require('uuid-lib');
 var cookie = require('cookie');
 var consolas = [];
 var engine = require('./engine');
+var ObjectID = require('mongodb').ObjectID
 var fs = require('fs');
 var gm = require('gm').subClass({ imageMagick: true });
 var d = engine.errorHandler;
@@ -396,12 +397,26 @@ var bindings = [
     }},
     {id: 'comm:get', mode: 'session', toMe: false, cb: function (socket) {
         engine.commands.find({}).toArray(function (err, res) {
-            console.log(err, res);
             if (err)
                 console.log(err);
             else {
                 socket.emit('binding', {id: 'comm:get', commands: res});
             }
         });
+    }},
+    {id: 'comm:save', mode: 'global', toMe: false, cb: function (_, data, room) {
+        var cmds = data.value.commands;
+        var cb = function (err, resp) {
+            if (err)
+                console.log(err);
+        };
+        cmds.forEach(function (it) {
+            it['_id'] = new ObjectID(it['_id']);
+            if (it.command)
+                engine.commands.save(it, {w: 1}, cb);
+            else
+                engine.commands.remove({_id: it['_id']}, {w: 1}, cb);
+        })
+
     }}
 ];
