@@ -33,6 +33,7 @@ then run:
 
     npm install ServerAdministration
     sudo apt-get install imagemagick
+    sudo apt-get install daemon
     sudo update-rc.d ServerAdministration defaults
 
     
