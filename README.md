@@ -10,30 +10,30 @@ copy this repo in one folder.
 
 
 
-
-Add to the file /etc/rc.local (before exit)
-
-    sudo ServerAdministration start
-    
+Copy the script to service folder:
+    sudo cp ./bin/ServerAdministration /etc/init.d/ServerAdministration    
 
 
 Change the required parameters in the file 
+(/etc/init.d/ServerAdministration)
 
-    /usr/local/bin/ServerAdministration
-    #forever path
-    export PATH=$PATH:/usr/local/bin
-    #node modules path
-    export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
-    #port to run server.
-    PORT=3000
-    #sourceDir
-    SOURCEDIR=/home/santi8ago8/GitHub/ServerAdministration
+	#forever path
+	export PATH=$PATH:~/.npm_global/bin
+	#node modules path
+	export NODE_PATH=$NODE_PATH:/home/santi8ago8/.npm_global/node_modules
+	#port to run server.
+	PORT=3088
+	#sourceDir
+	SOURCEDIR=/home/santi8ago8/GitHub/ServerAdministration
+
+	forever_executable=/home/santi8ago8/.npm_global/bin/forever
+
+
 then run:
 
     npm install ServerAdministration
     sudo apt-get install imagemagick
-    
-    sudo ServerAdministration start 
+    sudo update-rc.d ServerAdministration defaults
 
     
 Finally, reboot to be sure the ServerAdministration application starts automatically:

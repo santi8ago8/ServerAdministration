@@ -76,13 +76,13 @@ app.use(function (err, req, res, next) {
 });
 
 var options = {};
-
+var mode = 'http';
 try {
     console.log(__dirname);
     options.key = fs.readFileSync((__dirname + '/ssl/server.key'));
     options.cert = fs.readFileSync((__dirname + '/ssl/server.crt'));
     options.ca = fs.readFileSync((__dirname + '/ssl/ca.crt'));
-
+    mode = 'https';
 }
 catch (e) {
     console.log(e, e.stack);
@@ -97,7 +97,7 @@ if (options)
 else
     server = http.createServer(app).listen(port);
 require('./routes/sockets').init(server);
-console.log('listen in port: ' + port);
+console.log('listen in port: ' + port + " mode: " + mode);
 module.exports = app;
 
 process.on('SIGINT', function () {
@@ -106,9 +106,9 @@ process.on('SIGINT', function () {
     process.exit();
 });
 /*
-process.on('SIGKILL', function () {
-    console.log('maaaaadeee SIGKILL!!!!');
-    //TODO: hacer.
-    process.exit();
-});
-*/
+ process.on('SIGKILL', function () {
+ console.log('maaaaadeee SIGKILL!!!!');
+ //TODO: hacer.
+ process.exit();
+ });
+ */

@@ -1,30 +1,34 @@
-#!/bin/sh
-#/etc/init.d/ServerAdministration
-#
+#!/bin/bash
+# /etc/init.d/ServerAdministration
 # thanks to this user
 # Marcio S Galli (@taboca)
 # http://labs.telasocial.com/nodejs-forever-daemon/
 #
 
 #forever path
-export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:~/.npm_global/bin
 #node modules path
-export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
+export NODE_PATH=$NODE_PATH:/home/santi8ago8/.npm_global/node_modules
 #port to run server.
-PORT=3000
+PORT=3088
 #sourceDir
 SOURCEDIR=/home/santi8ago8/GitHub/ServerAdministration
+
+forever_executable=/home/santi8ago8/.npm_global/bin/forever
 
 start(){
     echo "Starting ServerAdministration"
 
-    sudo PORT=$PORT forever start --sourceDir=$SOURCEDIR -p $SOURCEDIR/forever.pid -l $SOURCEDIR/forever.log --append --uid="ServerAdministration" ServerAdministration.js
+    daemon --user=santi8ago8 --env="PORT=$PORT" -- \
+        $forever_executable $SOURCEDIR/ServerAdministration.js
+
+    #PORT=$PORT forever --sourceDir=$SOURCEDIR -p $SOURCEDIR/forever.pid -l $SOURCEDIR/forever.log --append --uid="ServerAdministration" ServerAdministration.js
 
     RETVAL=$?
 }
 stopServ(){
     echo "Stoping ServerAdministration"
-    sudo forever stop ServerAdministration
+    $forever_executable stop /home/santi8ago8/GitHub/ServerAdministration/ServerAdministration.js
     $RETVAL=0
 }
 case "$1" in
@@ -49,3 +53,5 @@ case "$1" in
 esac
 
 exit $RETVAL
+
+

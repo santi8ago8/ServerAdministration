@@ -427,6 +427,9 @@ terminal .console {
   -o-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
+terminal .console .terminal-cursor {
+  background-color: #32ff32;
+}
 terminal div.head.close {
   opacity: 0;
 }

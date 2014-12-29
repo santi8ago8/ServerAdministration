@@ -1,0 +1,160 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.34
+4 verbose node symlink /usr/bin/node
+5 verbose readDependencies using package.json deps
+6 verbose install where, deps [ '/home/santi8ago8/GitHub/ServerAdministration',
+6 verbose install   [ 'body-parser',
+6 verbose install     'connect',
+6 verbose install     'connect-form',
+6 verbose install     'cookie',
+6 verbose install     'cookie-parser',
+6 verbose install     'cookie-session',
+6 verbose install     'data-structures',
+6 verbose install     'debug',
+6 verbose install     'express',
+6 verbose install     'express-session',
+6 verbose install     'gm',
+6 verbose install     'jade',
+6 verbose install     'minimist',
+6 verbose install     'mongodb',
+6 verbose install     'morgan',
+6 verbose install     'nedb',
+6 verbose install     'pty.js',
+6 verbose install     'socket.io',
+6 verbose install     'static-favicon',
+6 verbose install     'stylus',
+6 verbose install     'swig',
+6 verbose install     'uuid-lib' ] ]
+7 info preinstall ServerAdministration@0.0.1
+8 warn package.json connect-form@0.2.1 No repository field.
+9 warn package.json uuid-lib@0.0.6 bugs['web'] should probably be bugs['url'].
+10 verbose readDependencies using package.json deps
+11 verbose already installed skipping body-parser@~1.0.0 /home/santi8ago8/GitHub/ServerAdministration
+12 verbose already installed skipping connect@^3.2.0 /home/santi8ago8/GitHub/ServerAdministration
+13 verbose already installed skipping connect-form@^0.2.1 /home/santi8ago8/GitHub/ServerAdministration
+14 verbose already installed skipping cookie@^0.1.2 /home/santi8ago8/GitHub/ServerAdministration
+15 verbose already installed skipping cookie-parser@~1.0.1 /home/santi8ago8/GitHub/ServerAdministration
+16 verbose already installed skipping cookie-session@^1.0.2 /home/santi8ago8/GitHub/ServerAdministration
+17 verbose already installed skipping data-structures@^1.4.2 /home/santi8ago8/GitHub/ServerAdministration
+18 verbose already installed skipping debug@~0.7.4 /home/santi8ago8/GitHub/ServerAdministration
+19 verbose already installed skipping express@^4.9.3 /home/santi8ago8/GitHub/ServerAdministration
+20 verbose already installed skipping express-session@^1.8.2 /home/santi8ago8/GitHub/ServerAdministration
+21 verbose already installed skipping gm@^1.16.0 /home/santi8ago8/GitHub/ServerAdministration
+22 verbose already installed skipping jade@~1.3.0 /home/santi8ago8/GitHub/ServerAdministration
+23 verbose already installed skipping minimist@^1.1.0 /home/santi8ago8/GitHub/ServerAdministration
+24 verbose already installed skipping mongodb@^1.4.12 /home/santi8ago8/GitHub/ServerAdministration
+25 verbose already installed skipping morgan@~1.0.0 /home/santi8ago8/GitHub/ServerAdministration
+26 verbose already installed skipping nedb@^0.11.1 /home/santi8ago8/GitHub/ServerAdministration
+27 verbose already installed skipping pty.js@^0.2.4 /home/santi8ago8/GitHub/ServerAdministration
+28 verbose already installed skipping socket.io@^1.1.0 /home/santi8ago8/GitHub/ServerAdministration
+29 verbose already installed skipping static-favicon@~1.0.0 /home/santi8ago8/GitHub/ServerAdministration
+30 verbose already installed skipping stylus@^0.48.1 /home/santi8ago8/GitHub/ServerAdministration
+31 verbose already installed skipping swig@^1.4.2 /home/santi8ago8/GitHub/ServerAdministration
+32 verbose already installed skipping uuid-lib@0.0.6 /home/santi8ago8/GitHub/ServerAdministration
+33 silly resolved []
+34 info build /home/santi8ago8/GitHub/ServerAdministration
+35 verbose linkStuff [ false, false, false, '/home/santi8ago8/GitHub' ]
+36 info linkStuff ServerAdministration@0.0.1
+37 verbose linkBins ServerAdministration@0.0.1
+38 verbose linkMans ServerAdministration@0.0.1
+39 verbose rebuildBundles ServerAdministration@0.0.1
+40 verbose rebuildBundles [ '.bin',
+40 verbose rebuildBundles   'body-parser',
+40 verbose rebuildBundles   'bower',
+40 verbose rebuildBundles   'connect',
+40 verbose rebuildBundles   'connect-form',
+40 verbose rebuildBundles   'cookie',
+40 verbose rebuildBundles   'cookie-parser',
+40 verbose rebuildBundles   'cookie-session',
+40 verbose rebuildBundles   'data-structures',
+40 verbose rebuildBundles   'debug',
+40 verbose rebuildBundles   'express',
+40 verbose rebuildBundles   'express-session',
+40 verbose rebuildBundles   'forever',
+40 verbose rebuildBundles   'gm',
+40 verbose rebuildBundles   'jade',
+40 verbose rebuildBundles   'minimist',
+40 verbose rebuildBundles   'mongodb',
+40 verbose rebuildBundles   'morgan',
+40 verbose rebuildBundles   'nedb',
+40 verbose rebuildBundles   'pty.js',
+40 verbose rebuildBundles   'socket.io',
+40 verbose rebuildBundles   'static-favicon',
+40 verbose rebuildBundles   'stylus',
+40 verbose rebuildBundles   'swig',
+40 verbose rebuildBundles   'uuid-lib' ]
+41 verbose rebuild bundle /home/santi8ago8/GitHub/ServerAdministration/node_modules/bower
+42 info build /home/santi8ago8/GitHub/ServerAdministration/node_modules/bower
+43 info preinstall bower@1.3.11
+44 verbose linkStuff [ false,
+44 verbose linkStuff   false,
+44 verbose linkStuff   false,
+44 verbose linkStuff   '/home/santi8ago8/GitHub/ServerAdministration/node_modules' ]
+45 info linkStuff bower@1.3.11
+46 warn prefer global bower@1.3.11 should be installed with -g
+47 verbose linkBins bower@1.3.11
+48 verbose link bins [ { bower: 'bin/bower' },
+48 verbose link bins   '/home/santi8ago8/GitHub/ServerAdministration/node_modules/.bin',
+48 verbose link bins   false ]
+49 verbose linkMans bower@1.3.11
+50 verbose rebuildBundles bower@1.3.11
+51 verbose rebuildBundles [ '.bin',
+51 verbose rebuildBundles   'abbrev',
+51 verbose rebuildBundles   'archy',
+51 verbose rebuildBundles   'bower-config',
+51 verbose rebuildBundles   'bower-endpoint-parser',
+51 verbose rebuildBundles   'bower-json',
+51 verbose rebuildBundles   'bower-logger',
+51 verbose rebuildBundles   'bower-registry-client',
+51 verbose rebuildBundles   'cardinal',
+51 verbose rebuildBundles   'chalk',
+51 verbose rebuildBundles   'chmodr',
+51 verbose rebuildBundles   'decompress-zip',
+51 verbose rebuildBundles   'fstream',
+51 verbose rebuildBundles   'fstream-ignore',
+51 verbose rebuildBundles   'glob',
+51 verbose rebuildBundles   'graceful-fs',
+51 verbose rebuildBundles   'handlebars',
+51 verbose rebuildBundles   'inquirer',
+51 verbose rebuildBundles   'insight',
+51 verbose rebuildBundles   'is-root',
+51 verbose rebuildBundles   'junk',
+51 verbose rebuildBundles   'lockfile',
+51 verbose rebuildBundles   'lru-cache',
+51 verbose rebuildBundles   'mkdirp',
+51 verbose rebuildBundles   'mout',
+51 verbose rebuildBundles   'nopt',
+51 verbose rebuildBundles   'opn',
+51 verbose rebuildBundles   'osenv',
+51 verbose rebuildBundles   'p-throttler',
+51 verbose rebuildBundles   'promptly',
+51 verbose rebuildBundles   'q',
+51 verbose rebuildBundles   'request',
+51 verbose rebuildBundles   'request-progress',
+51 verbose rebuildBundles   'retry',
+51 verbose rebuildBundles   'rimraf',
+51 verbose rebuildBundles   'semver',
+51 verbose rebuildBundles   'shell-quote',
+51 verbose rebuildBundles   'stringify-object',
+51 verbose rebuildBundles   'tar-fs',
+51 verbose rebuildBundles   'tmp',
+51 verbose rebuildBundles   'update-notifier',
+51 verbose rebuildBundles   'which' ]
+52 error Error: EACCES, unlink '/home/santi8ago8/GitHub/ServerAdministration/node_modules/.bin/bower'
+52 error  { [Error: EACCES, unlink '/home/santi8ago8/GitHub/ServerAdministration/node_modules/.bin/bower']
+52 error   errno: 3,
+52 error   code: 'EACCES',
+52 error   path: '/home/santi8ago8/GitHub/ServerAdministration/node_modules/.bin/bower' }
+53 error Please try running this command again as root/Administrator.
+54 error System Linux 3.13.0-43-generic
+55 error command "/usr/bin/node" "/usr/bin/npm" "install"
+56 error cwd /home/santi8ago8/GitHub/ServerAdministration
+57 error node -v v0.10.34
+58 error npm -v 1.4.28
+59 error path /home/santi8ago8/GitHub/ServerAdministration/node_modules/.bin/bower
+60 error code EACCES
+61 error errno 3
+62 error stack Error: EACCES, unlink '/home/santi8ago8/GitHub/ServerAdministration/node_modules/.bin/bower'
+63 verbose exit [ 3, true ]
